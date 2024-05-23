@@ -5,7 +5,7 @@ export default function App() {
   // Timer data 
   // 0: 25 min, 1: 5 min, 2: 15 min
   const timerDurations = [25 * 60, 5 * 60, 15 * 60];
-  
+
   // Timer state
   const [currentTimerIndex, setCurrentTimerIndex] = useState(0);
   const [timeLeft, setTimeLeft] = useState(timerDurations[0]);
@@ -23,32 +23,41 @@ export default function App() {
     setIsRunning(false);
     setTimeLeft(timerDurations[currentTimerIndex]);
   };
-  
+
+  // Switches between Pomodoro to break, and vice versa
+  const switchTimer = () => {
+    setIsRunning(false);
+    let newIndex = currentTimerIndex === 0 ? 1 : 0;
+    setCurrentTimerIndex(newIndex);
+    setTimer(newIndex);
+  };
+
   // Timer functionality
   useEffect(() => {
     let interval = null;
+
+    // Functionality for when timer reaches 0
+    const handleTimerEnd = () => {
+      clearInterval(interval);
+      switchTimer();
+      return 0;
+    };
+
+    // Countdown functionality
+    const handleTimerRun = () => {
+      return timeLeft - 1;
+    };
+
+    // Runs timer
     if (isRunning) {
       interval = setInterval(() => {
-        setTimeLeft(timeLeft => {
-          if (timeLeft <= 0) {
-            // Timer reaches end
-            setIsRunning(false);
-            clearInterval(interval);
-            // Switch from pomodoro to break, or vice versa
-            let newIndex = currentTimerIndex === 0 ? 1 : 0;
-            setCurrentTimerIndex(newIndex);
-            setTimer(newIndex);
-            return 0;
-          } else {
-            // Timer is running
-            return timeLeft - 1;
-          }
-        });
+        setTimeLeft(timeLeft => timeLeft <= 0 ? handleTimerEnd() : handleTimerRun());
       }, 1000);
     } else if (!isRunning && timeLeft !== 0) {
       // Paused timer
       clearInterval(interval);
     }
+
     return () => clearInterval(interval);
   }, [isRunning, timeLeft, currentTimerIndex]);
 
@@ -63,10 +72,11 @@ export default function App() {
       </View>
       <Button title={isRunning ? 'Pause' : 'Start'} onPress={() => setIsRunning(!isRunning)} />
       <Button title="Reset" onPress={resetTimer} />
+      {isRunning && <Button title="Skip" onPress={switchTimer} />}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  
+
 });
