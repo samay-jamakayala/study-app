@@ -72,7 +72,7 @@ export default function App() {
       </View>
       <Button title={isRunning ? 'Pause' : 'Start'} onPress={() => setIsRunning(!isRunning)} />
       <Button title="Reset" onPress={resetTimer} />
-      {isRunning && <Button title="Skip" onPress={switchTimer} />}
+      {timeLeft !== timerDurations[currentTimerIndex] && <Button title="Skip" onPress={switchTimer} />}
     </View>
   );
 }
