@@ -5,17 +5,15 @@ export default function App() {
   // Timer data 
   // 0: 25 min, 1: 5 min, 2: 15 min
   const timerDurations = [25 * 60, 5 * 60, 15 * 60];
-  const [currentTimerIndex, setCurrentTimerIndex] = useState(0);
-
+  
   // Timer state
-  const [selectedTime, setSelectedTime] = useState(25 * 60);
-  const [timeLeft, setTimeLeft] = useState(selectedTime);
+  const [currentTimerIndex, setCurrentTimerIndex] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(timerDurations[0]);
   const [isRunning, setIsRunning] = useState(false);
 
   // Set timer to a specific duration using timerDurations array
   const setTimer = (timerIndex) => {
     setIsRunning(false);
-    setSelectedTime(timerDurations[timerIndex]);
     setTimeLeft(timerDurations[timerIndex]);
     setCurrentTimerIndex(timerIndex);
   }
@@ -23,7 +21,7 @@ export default function App() {
   // Reset timer to same state
   const resetTimer = () => {
     setIsRunning(false);
-    setTimeLeft(selectedTime);
+    setTimeLeft(timerDurations[currentTimerIndex]);
   };
   
   // Timer functionality
