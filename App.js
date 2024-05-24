@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
+import "./firebaseConfig";
+import * as firebase from 'firebase';
 
 export default function App() {
   // Timer data 
@@ -61,22 +63,42 @@ export default function App() {
     return () => clearInterval(interval);
   }, [isRunning, timeLeft, currentTimerIndex]);
 
+  const isTimerRan = timeLeft !== timerDurations[currentTimerIndex];
 
   return (
-    <View>
-      <Text>{Math.floor(timeLeft / 60)}:{timeLeft % 60 < 10 ? '0' : ''}{timeLeft % 60}</Text>
-      <View>
+    <View style={styles.container}>
+      <Text style={styles.timer}>{Math.floor(timeLeft / 60)}:{timeLeft % 60 < 10 ? '0' : ''}{timeLeft % 60}</Text>
+      <View style={styles.buttonRow}>
         <Button title="25 min" onPress={() => setTimer(0)} />
         <Button title="5 min" onPress={() => setTimer(1)} />
         <Button title="15 min" onPress={() => setTimer(2)} />
       </View>
-      <Button title={isRunning ? 'Pause' : 'Start'} onPress={() => setIsRunning(!isRunning)} />
-      <Button title="Reset" onPress={resetTimer} />
-      {timeLeft !== timerDurations[currentTimerIndex] && <Button title="Skip" onPress={switchTimer} />}
+      <View style={styles.buttonContainer}>
+        <Button title={isRunning ? 'Pause' : 'Start'} onPress={() => setIsRunning(!isRunning)} />
+        <Button title="Reset" onPress={resetTimer} />
+        {isTimerRan ? <Button title="Skip" onPress={switchTimer}/> : <View style={{height: 38}}></View>}
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  timer: {
+    fontSize: 60,
+    marginBottom: 20,
+  },
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '80%',
+    marginBottom: 20,
+  },
+  buttonContainer: {
+    width: '80%',
+  },
 });
