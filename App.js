@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import "./firebaseConfig";
+import * as firebase from 'firebase';
 
 export default function App() {
   // Timer data 
