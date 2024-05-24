@@ -67,12 +67,12 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text style={styles.timer}>{Math.floor(timeLeft / 60)}:{timeLeft % 60 < 10 ? '0' : ''}{timeLeft % 60}</Text>
-      <View style={styles.buttonRow}>
+      <View style={styles.timerLengthContainer}>
         <Button title="25 min" onPress={() => setTimer(0)} />
         <Button title="5 min" onPress={() => setTimer(1)} />
         <Button title="15 min" onPress={() => setTimer(2)} />
       </View>
-      <View style={styles.buttonContainer}>
+      <View style={styles.timerControlContainer}>
         <Button title={isRunning ? 'Pause' : 'Start'} onPress={() => setIsRunning(!isRunning)} />
         <Button title="Reset" onPress={resetTimer} />
         {isTimerRan ? <Button title="Skip" onPress={switchTimer}/> : <View style={{height: 38}}></View>}
@@ -91,13 +91,13 @@ const styles = StyleSheet.create({
     fontSize: 60,
     marginBottom: 20,
   },
-  buttonRow: {
+  timerLengthContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '80%',
     marginBottom: 20,
   },
-  buttonContainer: {
+  timerControlContainer: {
     width: '80%',
   },
 });
