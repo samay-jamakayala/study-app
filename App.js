@@ -1,6 +1,6 @@
 import React from 'react';
 import Timer from './Timer';
-import "./firebaseConfig";
+import firebase from 'firebase/compat/app';"./firebaseConfig";
 import { View, StyleSheet } from 'react-native';
 
 export default function App() {
