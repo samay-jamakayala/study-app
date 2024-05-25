@@ -14,12 +14,14 @@ import * as firebase from 'firebase';
 const firebaseConfig = {
   apiKey: "AIzaSyCKx0UNJhvZ4Dq04RhMS57ZqkSkJ1Knu8E",
   authDomain: "cs4720-team4-study-app.firebaseapp.com",
+  databaseURL: "https://cs4720-team4-study-app-default-rtdb.firebaseio.com",
   projectId: "cs4720-team4-study-app",
   storageBucket: "cs4720-team4-study-app.appspot.com",
   messagingSenderId: "728110932503",
   appId: "1:728110932503:web:defc1b1d61aeb84410f252",
   measurementId: "G-LE18F8B5W1"
 };
+
 
 firebase.initializeApp(firebaseConfig);
 
