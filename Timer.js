@@ -65,17 +65,22 @@ export default function Timer() {
 
     return (
         <View style={styles.timerContainer}>
-            <Text style={styles.timer}>{Math.floor(timeLeft / 60)}:{timeLeft % 60 < 10 ? '0' : ''}{timeLeft % 60}</Text>
             <View style={styles.timerLengthContainer}>
                 <Button title="25 min" onPress={() => setTimer(0)} />
                 <Button title="5 min" onPress={() => setTimer(1)} />
                 <Button title="15 min" onPress={() => setTimer(2)} />
             </View>
-            <View style={styles.timerControlContainer}>
-                <Button title={isRunning ? 'Pause' : 'Start'} onPress={() => setIsRunning(!isRunning)} />
-                <Button title="Reset" onPress={resetTimer} />
-                {isStarted ? <Button title="Skip" onPress={switchTimer} /> : <View style={{ height: 38 }}></View>}
+            <View style={styles.timerCircle}>
+                <Text style={styles.timer}>{Math.floor(timeLeft / 60) < 10 ? `0${Math.floor(timeLeft / 60)}` : Math.floor(timeLeft / 60)}:{timeLeft % 60 < 10 ? '0' : ''}{timeLeft % 60}</Text>
             </View>
+            <View>
+                <View style={styles.timerControlContainer}>
+                    <Button title={isRunning ? 'Pause' : 'Start'} onPress={() => setIsRunning(!isRunning)} />
+                    <Button title="Reset" onPress={resetTimer} />
+                    <Button title="Skip" onPress={switchTimer} />
+                </View>
+            </View>
+            <Text style={styles.timer}>{currentTimerIndex === 0 ? 'Pomodoro' : 'Break'}</Text>
         </View>
     );
 }
@@ -84,9 +89,20 @@ const styles = StyleSheet.create({
     timerContainer: {
         alignItems: 'center',
     },
+    timerCircle: {
+        width: 200,
+        height: 200,
+        borderRadius: 100,
+        borderWidth: 10, // Circle thickness
+        borderColor: 'white',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
     timer: {
+        fontFamily: 'Times New Roman',
         fontSize: 60,
         marginBottom: 20,
+        marginTop: 20,
     },
     timerLengthContainer: {
         flexDirection: 'row',
@@ -95,6 +111,8 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     timerControlContainer: {
+        flexDirection: 'row',
         width: '80%',
+        justifyContent: 'space-between',
     },
 });
