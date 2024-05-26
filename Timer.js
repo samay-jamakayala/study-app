@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button, Pressable } from 'react-native';
 
 export default function Timer() {
 
@@ -75,9 +75,15 @@ export default function Timer() {
             </View>
             <View style={styles.timerControlCircle}>
                 <View style={styles.timerControlContainer}>
-                    <Button title={isRunning ? 'Pause' : 'Start'} onPress={() => setIsRunning(!isRunning)} />
-                    <Button title="Reset" onPress={resetTimer} />
-                    <Button title="Skip" onPress={switchTimer} />
+                    <Pressable style={styles.button} onPress={() => setIsRunning(!isRunning)}>
+                        <Text style={styles.buttonText}>{isRunning ? 'Pause' : 'Start'}</Text>
+                    </Pressable>
+                    <Pressable style={styles.button} onPress={resetTimer}>
+                        <Text style={styles.buttonText}>Reset</Text>
+                    </Pressable>
+                    <Pressable style={styles.button} onPress={switchTimer}>
+                        <Text style={styles.buttonText}>Skip</Text>
+                    </Pressable>
                 </View>
             </View>
             <Text style={styles.timer}>{currentTimerIndex === 0 ? 'Pomodoro' : 'Break'}</Text>
@@ -110,7 +116,7 @@ const styles = StyleSheet.create({
         width: '80%',
         marginBottom: 20,
     },
-    timerControlCircle:{
+    timerControlCircle: {
         width: 700,
         height: 700,
         borderRadius: 700,
@@ -120,17 +126,24 @@ const styles = StyleSheet.create({
     },
     timerControlContainer: {
         flexDirection: 'row',
-        marginTop: 40,
+        marginTop: 60,
         alignItems: 'center',
+        gap: 20,
 
     },
-    Button: {
-        width: 100,
-        height: 100,
-        borderRadius: 50,
-        backgroundColor: '#F3E9E1',
-        alignItems: 'center',
-        justifyContent: 'center',
-        margin: 20,
+    button: {
+        width: 100, // Adjust as needed
+        backgroundColor: 'black',
+        padding: 10,
+        borderRadius: 10,
+        elevation: 10, // This adds a shadow on Android
+        shadowColor: 'black', // This adds a shadow on iOS
+        shadowOffset: { width: 0, height: 10 }, // This adds a shadow on iOS
+        shadowOpacity: 0.5, // This adds a shadow on iOS
+        shadowRadius: 10, // This adds a shadow on iOS
+    },
+    buttonText: {
+        color: 'white',
+        textAlign: 'center',
     }
 });
