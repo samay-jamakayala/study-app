@@ -73,7 +73,7 @@ export default function Timer() {
             <View style={styles.timerCircle}>
                 <Text style={styles.timer}>{Math.floor(timeLeft / 60) < 10 ? `0${Math.floor(timeLeft / 60)}` : Math.floor(timeLeft / 60)}:{timeLeft % 60 < 10 ? '0' : ''}{timeLeft % 60}</Text>
             </View>
-            <View>
+            <View style={styles.timerControlCircle}>
                 <View style={styles.timerControlContainer}>
                     <Button title={isRunning ? 'Pause' : 'Start'} onPress={() => setIsRunning(!isRunning)} />
                     <Button title="Reset" onPress={resetTimer} />
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
         height: 200,
         borderRadius: 100,
         borderWidth: 10, // Circle thickness
-        borderColor: 'white',
+        borderColor: '#F3F3F3',
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -110,9 +110,27 @@ const styles = StyleSheet.create({
         width: '80%',
         marginBottom: 20,
     },
+    timerControlCircle:{
+        width: 700,
+        height: 700,
+        borderRadius: 700,
+        backgroundColor: '#D3CCC2',
+        marginTop: 20,
+        alignItems: 'center',
+    },
     timerControlContainer: {
         flexDirection: 'row',
-        width: '80%',
-        justifyContent: 'space-between',
+        marginTop: 40,
+        alignItems: 'center',
+
     },
+    Button: {
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+        backgroundColor: '#F3E9E1',
+        alignItems: 'center',
+        justifyContent: 'center',
+        margin: 20,
+    }
 });
