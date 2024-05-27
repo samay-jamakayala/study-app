@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
   appContainer: {
     flex: 1,
     alignItems: 'center',
-    marginTop: 150
+    marginTop: 50,
+    backgroundColor: '#F3E9E1',
   }
 });
