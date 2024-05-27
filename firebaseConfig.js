@@ -1,9 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import React from 'react';
 import * as firebase from 'firebase';
-
+import database from 'firebase/compat/database'
 
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -21,6 +20,10 @@ const firebaseConfig = {
   appId: "1:728110932503:web:defc1b1d61aeb84410f252",
   measurementId: "G-LE18F8B5W1"
 };
+// testing to see if database works
+if(firebase.apps.length == 0){
+  firebase.initializeApp(firebaseConfig);
+}
 
 
 firebase.initializeApp(firebaseConfig);

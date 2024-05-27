@@ -2,23 +2,23 @@ import React from 'react';
 import Timer from './Timer';
 import firebase from 'firebase/compat/app';"./firebaseConfig";
 import { View, StyleSheet, Button, Text} from 'react-native';
-import database from 'firebase/compat/database'
+import database from 'firebase/compat/database';"./firebaseConfig";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCKx0UNJhvZ4Dq04RhMS57ZqkSkJ1Knu8E",
-  authDomain: "cs4720-team4-study-app.firebaseapp.com",
-  databaseURL: "https://cs4720-team4-study-app-default-rtdb.firebaseio.com",
-  projectId: "cs4720-team4-study-app",
-  storageBucket: "cs4720-team4-study-app.appspot.com",
-  messagingSenderId: "728110932503",
-  appId: "1:728110932503:web:defc1b1d61aeb84410f252",
-  measurementId: "G-LE18F8B5W1"
-};
+// const firebaseConfig = {
+//   apiKey: "AIzaSyCKx0UNJhvZ4Dq04RhMS57ZqkSkJ1Knu8E",
+//   authDomain: "cs4720-team4-study-app.firebaseapp.com",
+//   databaseURL: "https://cs4720-team4-study-app-default-rtdb.firebaseio.com",
+//   projectId: "cs4720-team4-study-app",
+//   storageBucket: "cs4720-team4-study-app.appspot.com",
+//   messagingSenderId: "728110932503",
+//   appId: "1:728110932503:web:defc1b1d61aeb84410f252",
+//   measurementId: "G-LE18F8B5W1"
+// };
 
-// testing to see if database works
-if(firebase.apps.length == 0){
-  firebase.initializeApp(firebaseConfig);
-}
+// // testing to see if database works
+// if(firebase.apps.length == 0){
+//   firebase.initializeApp(firebaseConfig);
+// }
 
 // temporary just for testing//
 export default function App() {
