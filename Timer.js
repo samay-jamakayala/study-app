@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Button, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Button, Pressable, Dimensions } from 'react-native';
 
 export default function Timer() {
 
@@ -91,6 +91,8 @@ export default function Timer() {
     );
 }
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
     timerContainer: {
         alignItems: 'center',
@@ -117,9 +119,9 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     timerControlCircle: {
-        width: 700,
-        height: 700,
-        borderRadius: 700,
+        width: windowWidth * 1.5, // 90% of screen width
+        height: windowWidth * 1.5, // 90% of screen width
+        borderRadius: (windowWidth * 1.5) / 2, // Half of width or height
         backgroundColor: '#D3CCC2',
         marginTop: 20,
         alignItems: 'center',
@@ -127,21 +129,27 @@ const styles = StyleSheet.create({
     timerControlContainer: {
         flexDirection: 'row',
         marginTop: 60,
-        alignItems: 'center',
-        gap: 20,
+        width: windowWidth * .8, // 80% of screen width
+        justifyContent: 'space-between',
 
     },
-    button: {
-        width: 100, // Adjust as needed
-        backgroundColor: 'black',
-        padding: 10,
-        borderRadius: 10,
-        elevation: 10, // This adds a shadow on Android
-        shadowColor: 'black', // This adds a shadow on iOS
-        shadowOffset: { width: 0, height: 10 }, // This adds a shadow on iOS
-        shadowOpacity: 0.5, // This adds a shadow on iOS
-        shadowRadius: 10, // This adds a shadow on iOS
-    },
+    button: ({ pressed }) => [
+        {
+            transform: [{ scale: pressed ? 0.95 : 1 }], // scale down when pressed
+        },
+        {
+            width: 90,
+            height: 40, 
+            backgroundColor: 'black',
+            padding: 10,
+            borderRadius: 10,
+            elevation: 10, // This adds a shadow on Android
+            shadowColor: 'black', // This adds a shadow on iOS
+            shadowOffset: { width: 0, height: 10 }, // This adds a shadow on iOS
+            shadowOpacity: 0.5, // This adds a shadow on iOS
+            shadowRadius: 10, // This adds a shadow on iOS
+        },
+    ],
     buttonText: {
         color: 'white',
         textAlign: 'center',
