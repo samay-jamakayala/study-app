@@ -66,9 +66,15 @@ export default function Timer() {
     return (
         <View style={styles.timerContainer}>
             <View style={styles.timerLengthContainer}>
-                <Button title="25 min" onPress={() => setTimer(0)} />
-                <Button title="5 min" onPress={() => setTimer(1)} />
-                <Button title="15 min" onPress={() => setTimer(2)} />
+                <Pressable style={styles.timerLengthTab(currentTimerIndex === 0)} onPress={() => setTimer(0)}>
+                    <Text style={styles.timerLengthTabText}>Pomodoro</Text>
+                </Pressable>
+                <Pressable style={styles.timerLengthTab(currentTimerIndex === 1)} onPress={() => setTimer(1)}>
+                    <Text style={styles.timerLengthTabText}>Short Break</Text>
+                </Pressable>
+                <Pressable style={styles.timerLengthTab(currentTimerIndex === 2)} onPress={() => setTimer(2)}>
+                    <Text style={styles.timerLengthTabText}>Long Break</Text>
+                </Pressable>
             </View>
             <View style={styles.timerCircle}>
                 <Text style={styles.timer}>{Math.floor(timeLeft / 60) < 10 ? `0${Math.floor(timeLeft / 60)}` : Math.floor(timeLeft / 60)}:{timeLeft % 60 < 10 ? '0' : ''}{timeLeft % 60}</Text>
@@ -85,8 +91,8 @@ export default function Timer() {
                         <Text style={styles.buttonText}>Skip</Text>
                     </Pressable>
                 </View>
+                <View style={styles.todoPlaceHolder} />
             </View>
-            <Text style={styles.timer}>{currentTimerIndex === 0 ? 'Pomodoro' : 'Break'}</Text>
         </View>
     );
 }
@@ -108,6 +114,7 @@ const styles = StyleSheet.create({
     },
     timer: {
         fontFamily: 'Times New Roman',
+        fontWeight: 'bold',
         fontSize: 60,
         marginBottom: 20,
         marginTop: 20,
@@ -115,8 +122,19 @@ const styles = StyleSheet.create({
     timerLengthContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        width: '80%',
-        marginBottom: 20,
+        width: windowWidth * .8, // 80% of screen width
+        marginTop: 20,
+        marginBottom: 10,
+    },
+    timerLengthTab: (selected) => [
+        {
+            opacity: selected ? 1 : 0.5,
+            borderBottomWidth: selected ? 2 : 0, // Add this line
+            borderBottomColor: 'black', // Add this line
+        },
+    ],
+    timerLengthTabText: {
+        color: 'black',
     },
     timerControlCircle: {
         width: windowWidth * 1.5, // 90% of screen width
@@ -139,13 +157,13 @@ const styles = StyleSheet.create({
         },
         {
             width: 90,
-            height: 40, 
+            height: 40,
             backgroundColor: 'black',
             padding: 10,
             borderRadius: 10,
             elevation: 10, // This adds a shadow on Android
             shadowColor: 'black', // This adds a shadow on iOS
-            shadowOffset: { width: 0, height: 10 }, // This adds a shadow on iOS
+            shadowOffset: { width: 0, height: 5 }, // This adds a shadow on iOS
             shadowOpacity: 0.5, // This adds a shadow on iOS
             shadowRadius: 10, // This adds a shadow on iOS
         },
@@ -153,5 +171,12 @@ const styles = StyleSheet.create({
     buttonText: {
         color: 'white',
         textAlign: 'center',
+    },
+    todoPlaceHolder: {
+        width: windowWidth * 0.8,
+        height: windowHeight * .40,
+        backgroundColor: '#F3F3F3',
+        borderRadius: 15,
+        marginTop: 20,
     }
 });
