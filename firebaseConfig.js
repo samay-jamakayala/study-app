@@ -1,16 +1,10 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import * as firebase from 'firebase';
-import database from 'firebase/compat/database'
-
-
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import firebase from "firebase/compat/app";
+import "firebase/compat/database";
 
 // Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
+const firebaseConfigInfo = {
   apiKey: "AIzaSyCKx0UNJhvZ4Dq04RhMS57ZqkSkJ1Knu8E",
   authDomain: "cs4720-team4-study-app.firebaseapp.com",
   databaseURL: "https://cs4720-team4-study-app-default-rtdb.firebaseio.com",
@@ -20,14 +14,13 @@ const firebaseConfig = {
   appId: "1:728110932503:web:defc1b1d61aeb84410f252",
   measurementId: "G-LE18F8B5W1"
 };
-// testing to see if database works
-if(firebase.apps.length == 0){
-  firebase.initializeApp(firebaseConfig);
-}
-
-
-firebase.initializeApp(firebaseConfig);
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+const app = firebase.initializeApp(firebaseConfigInfo);
+
+// Function to store high score in the database
+export function storeHighScore(userID, score) {
+  firebase.database().ref('users/' + userID).set({
+    highscore: score
+  });
+}
