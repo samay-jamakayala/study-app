@@ -88,7 +88,7 @@ export default function Timer() {
                         <Text style={styles.buttonText}>Reset</Text>
                     </Pressable>
                     <Pressable style={styles.button} onPress={switchTimer}>
-                        <Text style={styles.buttonText}>Skip</Text>
+                        <Text style={styles.buttonText}>Switch</Text>
                     </Pressable>
                 </View>
                 <View style={styles.todoPlaceHolder} />
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     timerLengthContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        width: windowWidth * .8, // 80% of screen width
+        width: windowWidth * .70, // 70% of screen width
         marginTop: 20,
         marginBottom: 10,
     },
@@ -137,9 +137,9 @@ const styles = StyleSheet.create({
         color: 'black',
     },
     timerControlCircle: {
-        width: windowWidth * 1.5, // 90% of screen width
-        height: windowHeight * .75, // 90% of screen width
-        borderRadius: (windowWidth * 1.5) / 2, // Half of width or height
+        width: windowWidth * 1.75, // 175% of screen width
+        height: windowWidth * 1.75, // 175% of screen width
+        borderRadius: (windowWidth * 1.75) / 2, // Creates Circle
         backgroundColor: '#D3CCC2',
         marginTop: 20,
         alignItems: 'center',
@@ -156,11 +156,13 @@ const styles = StyleSheet.create({
             transform: [{ scale: pressed ? 0.95 : 1 }], // scale down when pressed
         },
         {
-            width: 90,
-            height: 40,
+            width: 95,
+            height: 45,
             backgroundColor: 'black',
             padding: 10,
             borderRadius: 10,
+            alignItems: 'center',
+            justifyContent: 'center',
             elevation: 10, // This adds a shadow on Android
             shadowColor: 'black', // This adds a shadow on iOS
             shadowOffset: { width: 0, height: 5 }, // This adds a shadow on iOS
@@ -173,7 +175,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     todoPlaceHolder: {
-        width: windowWidth * 0.8,
+        width: windowWidth * 0.8, // 80% of screen width
         height: windowHeight * .40,
         backgroundColor: '#F3F3F3',
         borderRadius: 15,
