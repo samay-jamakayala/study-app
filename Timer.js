@@ -1,16 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Pressable, Dimensions } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { StyleSheet, Text, View, Animated, Pressable, Dimensions } from 'react-native';
 
-export default function Timer() {
+export default function Timer({ currentTimerIndex, setCurrentTimerIndex }) {
 
     // Timer data 
     // 0: 25 min, 1: 5 min, 2: 15 min
     const timerDurations = [25 * 60, 5 * 60, 15 * 60];
 
     // Timer state
-    const [currentTimerIndex, setCurrentTimerIndex] = useState(0);
     const [timeLeft, setTimeLeft] = useState(timerDurations[0]);
     const [isRunning, setIsRunning] = useState(false);
+    const scrollX = useRef(new Animated.Value(0)).current;
+    const scrollViewRef = useRef(null);
+
+    const handleScroll = (event) => {
+        const scrollPosition = event.nativeEvent.contentOffset.x;
+        const currentPageIndex = Math.round(scrollPosition / windowWidth);
+        
+        setIsRunning(false);
+        const newIndex = currentPageIndex % timerDurations.length;
+        setCurrentTimerIndex(newIndex); // Use modulus operator to cycle through the array
+        setTimer(newIndex);
+    };
 
     // Set timer to a specific duration using timerDurations array
     const setTimer = (timerIndex) => {
@@ -27,10 +38,11 @@ export default function Timer() {
 
     // Switches between Pomodoro to break, and vice versa
     const switchTimer = () => {
-        setIsRunning(false);
         let newIndex = currentTimerIndex === 0 ? 1 : 0;
-        setCurrentTimerIndex(newIndex);
-        setTimer(newIndex);
+        scrollViewRef.current?.scrollTo({
+            x: newIndex * windowWidth, // Scroll to the correct page based on the index
+            animated: true,
+        });
     };
 
     // Timer functionality
@@ -61,11 +73,9 @@ export default function Timer() {
         return () => clearInterval(interval);
     }, [isRunning, timeLeft, currentTimerIndex]);
 
-    const isStarted = timeLeft !== timerDurations[currentTimerIndex];
-
     return (
         <View style={styles.timerContainer}>
-            <View style={styles.timerLengthContainer}>
+            {/* <View style={styles.timerLengthContainer}>
                 <Pressable style={styles.timerLengthTab(currentTimerIndex === 0)} onPress={() => setTimer(0)}>
                     <Text style={styles.timerLengthTabText}>Pomodoro</Text>
                 </Pressable>
@@ -75,9 +85,36 @@ export default function Timer() {
                 <Pressable style={styles.timerLengthTab(currentTimerIndex === 2)} onPress={() => setTimer(2)}>
                     <Text style={styles.timerLengthTabText}>Long Break</Text>
                 </Pressable>
-            </View>
-            <View style={styles.timerCircle}>
-                <Text style={styles.timer}>{Math.floor(timeLeft / 60) < 10 ? `0${Math.floor(timeLeft / 60)}` : Math.floor(timeLeft / 60)}:{timeLeft % 60 < 10 ? '0' : ''}{timeLeft % 60}</Text>
+            </View> */}
+            <View style={styles.timerScrollContainer}>
+                <Animated.ScrollView
+                    ref={scrollViewRef}
+                    horizontal
+                    pagingEnabled
+                    showsHorizontalScrollIndicator={false}
+                    onScroll={Animated.event(
+                        [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+                        { useNativeDriver: true, listener: handleScroll }
+                    )}
+                    scrollEventThrottle={16}
+                    contentContainerStyle={{ justifyContent: 'space-between' }}
+                >
+                    <View style={styles.scrollListItem}>
+                        <View style={styles.timerCircle}>
+                            <Text style={styles.timer}>{Math.floor(timeLeft / 60) < 10 ? `0${Math.floor(timeLeft / 60)}` : Math.floor(timeLeft / 60)}:{timeLeft % 60 < 10 ? '0' : ''}{timeLeft % 60}</Text>
+                        </View>
+                    </View>
+                    <View style={styles.scrollListItem}>
+                        <View style={styles.timerCircle}>
+                            <Text style={styles.timer}>{Math.floor(timeLeft / 60) < 10 ? `0${Math.floor(timeLeft / 60)}` : Math.floor(timeLeft / 60)}:{timeLeft % 60 < 10 ? '0' : ''}{timeLeft % 60}</Text>
+                        </View>
+                    </View>
+                    <View style={styles.scrollListItem}>
+                        <View style={styles.timerCircle}>
+                            <Text style={styles.timer}>{Math.floor(timeLeft / 60) < 10 ? `0${Math.floor(timeLeft / 60)}` : Math.floor(timeLeft / 60)}:{timeLeft % 60 < 10 ? '0' : ''}{timeLeft % 60}</Text>
+                        </View>
+                    </View>
+                </Animated.ScrollView>
             </View>
             <View style={styles.timerControlCircle}>
                 <View style={styles.timerControlContainer}>
@@ -101,7 +138,15 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
     timerContainer: {
+        marginTop: 20,
         alignItems: 'center',
+    },
+    timerScrollContainer: {
+        height: 180,
+    },
+    scrollListItem: {
+        alignItems: 'center',
+        width: windowWidth,
     },
     timerCircle: {
         width: 180,
@@ -126,16 +171,16 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginBottom: 10,
     },
-    timerLengthTab: (selected) => [
-        {
-            opacity: selected ? 1 : 0.5,
-            borderBottomWidth: selected ? 2 : 0,
-            borderBottomColor: 'black', 
-        },
-    ],
-    timerLengthTabText: {
-        color: 'black',
-    },
+    // timerLengthTab: (selected) => [
+    //     {
+    //         opacity: selected ? 1 : 0.5,
+    //         borderBottomWidth: selected ? 2 : 0,
+    //         borderBottomColor: 'black', 
+    //     },
+    // ],
+    // timerLengthTabText: {
+    //     color: 'black',
+    // },
     timerControlCircle: {
         width: windowWidth * 1.75, // 175% of screen width
         height: windowWidth * 1.75, // 175% of screen width
