@@ -104,10 +104,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     timerCircle: {
-        width: 200,
-        height: 200,
+        width: 180,
+        height: 180,
         borderRadius: 100,
-        borderWidth: 10, // Circle thickness
+        borderWidth: 12, // Circle thickness
         borderColor: '#F3F3F3',
         alignItems: 'center',
         justifyContent: 'center',
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     timer: {
         fontFamily: 'Times New Roman',
         fontWeight: 'bold',
-        fontSize: 60,
+        fontSize: 55,
         marginBottom: 20,
         marginTop: 20,
     },
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     },
     timerControlCircle: {
         width: windowWidth * 1.5, // 90% of screen width
-        height: windowWidth * 1.5, // 90% of screen width
+        height: windowHeight * .75, // 90% of screen width
         borderRadius: (windowWidth * 1.5) / 2, // Half of width or height
         backgroundColor: '#D3CCC2',
         marginTop: 20,
