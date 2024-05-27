@@ -129,8 +129,8 @@ const styles = StyleSheet.create({
     timerLengthTab: (selected) => [
         {
             opacity: selected ? 1 : 0.5,
-            borderBottomWidth: selected ? 2 : 0, // Add this line
-            borderBottomColor: 'black', // Add this line
+            borderBottomWidth: selected ? 2 : 0,
+            borderBottomColor: 'black', 
         },
     ],
     timerLengthTabText: {
