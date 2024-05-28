@@ -1,17 +1,17 @@
 import React from 'react';
 import Timer from './Timer';
 import { View, StyleSheet, Button, Text} from 'react-native';
-import { storeLogin } from "./firebaseConfig"; // Importing the storeHighScore function from firebaseConfig.js
-import { Database } from 'firebase/database';
+import LoginPage from "./Login"; // Importing the storeHighScore function from firebaseConfig.js
 
 export default function App() {
   return (
     <View style={styles.appContainer}>
       {/* testing database input */}
-      <Button title="Add User" onPress={() => storeLogin('slay', '1234')} />
-      <Text>
-        <Timer />
-      </Text>
+      {/* <Button title="Add User" onPress={() => storeLogin('slay', '1234')} /> */}
+      {/* <Text> 
+      </Text> */}
+      <Text> <LoginPage /> </Text>
+      <Text> <Timer /> </Text>
     </View>
   );
 }
