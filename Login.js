@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
-import firebaseConfigInfo from './firebaseConfig';
-import firebase from "firebase/compat/app";
+import './firebaseConfig';
 // maybe you need this...
 //
 

@@ -1,18 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Timer from './Timer';
-import { View, StyleSheet, Button, Text} from 'react-native';
-import LoginPage from "./Login"; // Importing the storeHighScore function from firebaseConfig.js
+import Navbar from './Navbar';
+import "./firebaseConfig";
+import { SafeAreaView , StyleSheet } from 'react-native';
 
 export default function App() {
+  const [currentTimerIndex, setCurrentTimerIndex] = useState(0);
+
   return (
-    <View style={styles.appContainer}>
-      {/* testing database input */}
-      {/* <Button title="Add User" onPress={() => storeLogin('slay', '1234')} /> */}
-      {/* <Text> 
-      </Text> */}
-      <Text> <LoginPage /> </Text>
-      <Text> <Timer /> </Text>
-    </View>
+    <SafeAreaView  style={styles.appContainer}>
+      <Navbar currentTimerIndex={currentTimerIndex}/>
+      <Timer currentTimerIndex={currentTimerIndex} setCurrentTimerIndex={setCurrentTimerIndex} />
+    </SafeAreaView >
   );
 }
 
@@ -20,6 +19,6 @@ const styles = StyleSheet.create({
   appContainer: {
     flex: 1,
     alignItems: 'center',
-    marginTop: 150
+    backgroundColor: '#F3E9E1',
   }
 });
