@@ -19,8 +19,8 @@ const firebaseConfigInfo = {
 const app = firebase.initializeApp(firebaseConfigInfo);
 
 // Function to store high score in the database
-export function storeLogin(userID, pass) {
-  firebase.database().ref('users/' + userID).set({
-    password: pass
-  });
-}
+// export function storeLogin(userID, pass) {
+//   firebase.database().ref('users/' + userID).set({
+//     password: pass
+//   });
+// }
