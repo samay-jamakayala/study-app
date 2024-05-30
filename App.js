@@ -10,9 +10,11 @@ export default function App() {
 
   return (
     <SafeAreaView  style={styles.appContainer}>
+      
       <Navbar currentTimerIndex={currentTimerIndex}/>
-      <Timer currentTimerIndex={currentTimerIndex} setCurrentTimerIndex={setCurrentTimerIndex} />
       <TodoList />
+      <Timer currentTimerIndex={currentTimerIndex} setCurrentTimerIndex={setCurrentTimerIndex} />
+      
     </SafeAreaView >
   );
 }

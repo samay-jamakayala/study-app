@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, Animated, Pressable, Dimensions } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { StyleSheet, Text, View, Animated, Pressable, Dimensions, TextInput, Button } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 
 
@@ -65,6 +65,9 @@ export default function TodoList() {
         </View>
     );
 }
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
     container: {
