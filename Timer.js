@@ -38,7 +38,7 @@ export default function Timer({ currentTimerIndex, setCurrentTimerIndex }) {
 
     // Switches between Pomodoro to break, and vice versa
     const switchTimer = () => {
-        let newIndex = currentTimerIndex === 0 ? 1 : 0;
+        let newIndex = (currentTimerIndex + 1) % timerDurations.length;
         scrollViewRef.current?.scrollTo({
             x: newIndex * windowWidth, // Scroll to the correct page based on the index
             animated: true,
