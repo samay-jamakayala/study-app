@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, CheckBox, Text, StyleSheet } from 'react-native';
+import { StyleSheet, Text, View, Animated, Pressable, Dimensions } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 
 
@@ -65,3 +65,40 @@ export default function TodoList() {
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        width: windowWidth * 0.8, // 80% of screen width
+        height: windowHeight * .40,
+        backgroundColor: '#F3F3F3',
+        borderRadius: 15,
+        marginTop: 20,
+    },
+    todoItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        margin: 10,
+    },
+    todoitemText: {
+        fontSize: 20,
+    },
+    completed: {
+        textDecorationLine: 'line-through',
+        color: '#aaa',
+    },
+    deleteButton: {
+        backgroundColor: 'red',
+        padding: 5,
+        borderRadius: 5,
+        marginLeft: 'auto',
+    },
+    input: {
+        width: '90%',
+        height: 50,
+        backgroundColor: '#fff',
+        borderRadius: 5,
+        padding: 10,
+        margin: 10,
+    },
+});
+
