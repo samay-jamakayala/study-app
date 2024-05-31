@@ -1,19 +1,20 @@
 import React from "react";
 import { View, StyleSheet, Text, Pressable, Dimensions } from "react-native";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function Navbar({ currentTimerIndex }) {
     const timerDisplay = ["Work", "Short\nBreak", "Long\nBreak"];
 
     return (
         <View style={styles.navbarContainer}>
-            <Pressable style={styles.button}>
-                <Text style={styles.buttonText}>Settings</Text>
+            <Pressable style={styles.iconButton}>
+                <Icon name="cog" size={30} color="black" />
             </Pressable>
             <Text style={styles.timerTitle}>
                 {timerDisplay[currentTimerIndex]}
             </Text>
-            <Pressable style={styles.button}>
-                <Text style={styles.buttonText}>Invite</Text>
+            <Pressable style={styles.iconButton}>
+                <Icon name="user" size={30} color="black" />
             </Pressable>
         </View>
     );
