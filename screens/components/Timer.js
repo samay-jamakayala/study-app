@@ -75,17 +75,6 @@ export default function Timer({ currentTimerIndex, setCurrentTimerIndex }) {
 
     return (
         <View style={styles.timerContainer}>
-            {/* <View style={styles.timerLengthContainer}>
-                <Pressable style={styles.timerLengthTab(currentTimerIndex === 0)} onPress={() => setTimer(0)}>
-                    <Text style={styles.timerLengthTabText}>Pomodoro</Text>
-                </Pressable>
-                <Pressable style={styles.timerLengthTab(currentTimerIndex === 1)} onPress={() => setTimer(1)}>
-                    <Text style={styles.timerLengthTabText}>Short Break</Text>
-                </Pressable>
-                <Pressable style={styles.timerLengthTab(currentTimerIndex === 2)} onPress={() => setTimer(2)}>
-                    <Text style={styles.timerLengthTabText}>Long Break</Text>
-                </Pressable>
-            </View> */}
             <View style={styles.timerScrollContainer}>
                 <Animated.ScrollView
                     ref={scrollViewRef}
@@ -140,6 +129,7 @@ const styles = StyleSheet.create({
     timerContainer: {
         marginTop: 20,
         alignItems: 'center',
+        overflow: 'hidden'
     },
     timerScrollContainer: {
         height: 180,
@@ -171,16 +161,6 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginBottom: 10,
     },
-    // timerLengthTab: (selected) => [
-    //     {
-    //         opacity: selected ? 1 : 0.5,
-    //         borderBottomWidth: selected ? 2 : 0,
-    //         borderBottomColor: 'black', 
-    //     },
-    // ],
-    // timerLengthTabText: {
-    //     color: 'black',
-    // },
     timerControlCircle: {
         width: windowWidth * 1.75, // 175% of screen width
         height: windowWidth * 1.75, // 175% of screen width

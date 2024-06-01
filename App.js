@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import Timer from './Timer';
-import Navbar from './Navbar';
-import "./firebaseConfig";
-import { SafeAreaView , StyleSheet } from 'react-native';
+import { Dashboard, Login, Welcome } from './screens';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 export default function App() {
-  const [currentTimerIndex, setCurrentTimerIndex] = useState(0);
+
+  const Stack = createNativeStackNavigator();
 
   return (
-    <SafeAreaView  style={styles.appContainer}>
-      <Navbar currentTimerIndex={currentTimerIndex}/>
-      <Timer currentTimerIndex={currentTimerIndex} setCurrentTimerIndex={setCurrentTimerIndex} />
-    </SafeAreaView >
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+          animation: 'slide_from_bottom',
+        }}
+        initialRouteName="Welcome">
+        <Stack.Screen name="Welcome" component={Welcome} />
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Dashboard" component={Dashboard}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  appContainer: {
-    flex: 1,
-    alignItems: 'center',
-    backgroundColor: '#F3E9E1',
-  }
-});
