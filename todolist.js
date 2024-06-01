@@ -1,18 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Text, View, Animated, Pressable, Dimensions, TextInput, Button } from 'react-native';
+import { StyleSheet, Text, View, Animated, Pressable, Dimensions, TextInput, Button} from 'react-native';
+import Checkbox from 'expo-checkbox';
 import { TouchableOpacity } from 'react-native';
 
 
 export default function TodoList() {
     // State Hooks
-    const [tasks, setTasks] = useState([]);
+    const [tasks, setTasks] = useState([{}]);
     const [text, setText] = useState('');
 
     // Function to Add Task
     function addTask() {
         const newTask = { id: Date.now(), text, completed: false };
         setTasks([...tasks, newTask]);
-        setText('');
+        setText(' ');
     }
 
     // Function to Delete Task
@@ -24,28 +25,6 @@ export default function TodoList() {
     function toggleCompleted(id) {
         setTasks(tasks.map(task => (task.id === id ? { ...task, completed: !task.completed } : task)));
     }
-
-    // TodoItem Component
-    function TodoItem({ task }) {
-        return (
-            <View style={styles.todoItem}>
-                <CheckBox
-                    value={task.completed}
-                    onValueChange={() => toggleCompleted(task.id)}
-                />
-                <Text style={[styles.todoitemText, task.completed && styles.completed]}>
-                    {task.text}
-                </Text>
-                <TouchableOpacity
-                    style={styles.deleteButton}
-                    onPress={() => deleteTask(task.id)}
-                >
-                    <Text style={{ color: '#fff' }}>Delete</Text>
-                </TouchableOpacity>
-            </View>
-        );
-    }
-
     // Render TodoList Component
     return (
         <View style={styles.container}>
@@ -53,17 +32,39 @@ export default function TodoList() {
                 <TodoItem
                     key={task.id}
                     task={task}
+                    deleteTask={deleteTask}
+                    toggleCompleted={toggleCompleted}
                 />
             ))}
             <TextInput
-                value={text}
-                onChangeText={setText}
-                placeholder="New Task"
-                style={styles.input}
+                style = {styles.input} placeholder = "Enter a task" value = {text} onChangeText = {setText}
             />
             <Button title="Add" onPress={addTask} />
         </View>
     );
+    // TodoItem Component
+    function TodoItem({ task, deleteTask, toggleCompleted, addTask }) {
+        const [toggleCheckBox, setToggleCheckBox] = useState(false);
+        return (
+            <View style={styles.todoItem}>
+              <Checkbox
+                value={task.completed}
+                onValueChange={() => toggleCompleted(task.id)}
+              />
+              <Text style={[styles.todoItemText, task.completed && styles.completed]}>
+                {task.text}
+              </Text>
+              <TouchableOpacity
+                style={styles.deleteButton}
+                onPress={() => deleteTask(task.id)}
+              >
+                <Text style={{ color: '#fff' }}>Delete</Text>
+              </TouchableOpacity>
+            </View>
+          );
+    }
+
+    
 }
 
 const windowWidth = Dimensions.get('window').width;
