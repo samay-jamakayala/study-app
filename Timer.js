@@ -128,7 +128,7 @@ export default function Timer({ currentTimerIndex, setCurrentTimerIndex }) {
                         <Text style={styles.buttonText}>Switch</Text>
                     </Pressable>
                 </View>
-                <View style={styles.todoPlaceHolder} />
+                {/* <View style={styles.todoPlaceHolder} /> */}
             </View>
         </View>
     );
@@ -138,6 +138,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
     timerContainer: {
+        flex:1,
         marginTop: 20,
         alignItems: 'center',
     },

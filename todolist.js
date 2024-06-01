@@ -6,14 +6,14 @@ import { TouchableOpacity } from 'react-native';
 
 export default function TodoList() {
     // State Hooks
-    const [tasks, setTasks] = useState([{}]);
+    const [tasks, setTasks] = useState([]);
     const [text, setText] = useState('');
 
     // Function to Add Task
     function addTask() {
         const newTask = { id: Date.now(), text, completed: false };
         setTasks([...tasks, newTask]);
-        setText(' ');
+        setText('');
     }
 
     // Function to Delete Task
@@ -25,26 +25,8 @@ export default function TodoList() {
     function toggleCompleted(id) {
         setTasks(tasks.map(task => (task.id === id ? { ...task, completed: !task.completed } : task)));
     }
-    // Render TodoList Component
-    return (
-        <View style={styles.container}>
-            {tasks.map(task => (
-                <TodoItem
-                    key={task.id}
-                    task={task}
-                    deleteTask={deleteTask}
-                    toggleCompleted={toggleCompleted}
-                />
-            ))}
-            <TextInput
-                style = {styles.input} placeholder = "Enter a task" value = {text} onChangeText = {setText}
-            />
-            <Button title="Add" onPress={addTask} />
-        </View>
-    );
     // TodoItem Component
-    function TodoItem({ task, deleteTask, toggleCompleted, addTask }) {
-        const [toggleCheckBox, setToggleCheckBox] = useState(false);
+    function TodoItem({ task, deleteTask, toggleCompleted}) {
         return (
             <View style={styles.todoItem}>
               <Checkbox
@@ -63,15 +45,39 @@ export default function TodoList() {
             </View>
           );
     }
+    // Render TodoList Component
+    return (
+        <View style={styles.container}>
+            {tasks.map(task => (
+                <TodoItem
+                    key={task.id}
+                    task={task}
+                    deleteTask={deleteTask}
+                    toggleCompleted={toggleCompleted}
+                />
+            ))}
+            <TextInput
+                style={styles.input}
+                placeholder="Enter a task"
+                value={text}
+                onChangeText={setText}
+            />
+            <Button title="Add" onPress={addTask} />
+            <View style={styles.container} />
+        </View>
+    );
+
 
     
 }
+
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1.50,
         width: windowWidth * 0.8, // 80% of screen width
         height: windowHeight * .40,
         backgroundColor: '#F3F3F3',
@@ -83,7 +89,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         margin: 10,
     },
-    todoitemText: {
+    todoItemText: {
         fontSize: 20,
     },
     completed: {
