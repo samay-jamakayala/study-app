@@ -8,11 +8,10 @@ export default function Welcome() {
         <SafeAreaView style={styles.appContainer}>
             <View style={styles.titleCircle}>
                 <Text style={styles.title}>PomoFlow</Text>
-                <Pressable style={styles.button} onPress={() => navigation.navigate('Login')}>
+                <Pressable style={styles.button} onPress={() => navigation.navigate('AuthPage')}>
                     <Text style={styles.buttonText}>Start</Text>
                 </Pressable>
             </View>
-
         </SafeAreaView >
     );
 }

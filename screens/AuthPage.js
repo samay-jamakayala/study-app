@@ -1,8 +1,7 @@
 import { StyleSheet, SafeAreaView, Text, TextInput, Dimensions, Pressable, View } from 'react-native';
 import Logo from '../assets/google-icon.svg';
-import '../firebaseConfig';
 
-export default function LoginPage() {
+export default function AuthPage() {
     return (
         <SafeAreaView style={styles.appContainer}>
             <Text style={styles.title}>PomoFlow</Text>
@@ -29,6 +28,16 @@ export default function LoginPage() {
             </Pressable>
         </SafeAreaView>
     );
+}
+
+export function SignUp() {
+    <SafeAreaView style={styles.appContainer}>
+    </SafeAreaView>
+}
+
+export function Login() {
+    <SafeAreaView style={styles.appContainer}>
+    </SafeAreaView>
 }
 
 const windowWidth = Dimensions.get('window').width;
@@ -83,17 +92,17 @@ const styles = StyleSheet.create({
     dividerContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: 20, // Adjust as needed
+        marginTop: 20,
         width: windowWidth * .85,
     },
     dividerLine: {
         flex: 1,
         height: 1,
-        backgroundColor: '#E0E0E0', // Change to match your design
+        backgroundColor: '#E0E0E0',
     },
     dividerText: {
         marginHorizontal: 10,
-        color: '#828282', // Change to match your design
+        color: '#828282',
     },
     googleButton: ({ pressed }) => [
         {
