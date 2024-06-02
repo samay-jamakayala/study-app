@@ -2,7 +2,6 @@ import { useState, useRef } from 'react';
 import { StyleSheet, SafeAreaView, Text, TextInput, Dimensions, Pressable, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Logo from '../assets/google-icon.svg';
-import { set } from 'firebase/database';
 
 export default function AuthPage() {
     const navigation = useNavigation();
