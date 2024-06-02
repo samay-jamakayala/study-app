@@ -78,6 +78,12 @@ export function SignUp({ route }) {
             return false;
         }
 
+        // Check if password contains at least one uppercase letter
+        if (!/[A-Z]/.test(password)) {
+            setErrorMessage('Password should contain at least one uppercase letter');
+            return false;
+        }
+
         // Check if password contains at least one number
         if (!/\d/.test(password)) {
             setErrorMessage('Password should contain at least one number');
@@ -96,7 +102,7 @@ export function SignUp({ route }) {
             return false;
         }
 
-        // If all checks pass, return null
+        // If all checks pass, return true
         return true;
     }
 
