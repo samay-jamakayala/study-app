@@ -9,8 +9,6 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "@react-native-firebase/app": "^20.0.0",
-    "@react-native-google-signin/google-signin": "^12.1.0",
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/native-stack": "^6.9.26",
     "expo": "~51.0.8",
