@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         backgroundColor: '#F3E9E1',
+        overflow: 'hidden',
     },
     titleCircle: {
         width: windowWidth * 1.75, // 175% of screen width

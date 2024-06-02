@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import {Timer, Navbar} from './components';
+import {Timer, Navbar} from '../components';
 import { SafeAreaView , StyleSheet } from 'react-native';
 
 export default function Dashboard() {
@@ -18,5 +18,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     backgroundColor: '#F3E9E1',
+    overflow: 'hidden',
   }
 });
