@@ -8,7 +8,7 @@ export default function Welcome() {
         <SafeAreaView style={styles.appContainer}>
             <View style={styles.titleCircle}>
                 <Text style={styles.title}>PomoFlow</Text>
-                <Pressable style={styles.button} onPress={() => navigation.navigate('Dashboard')}>
+                <Pressable style={styles.button} onPress={() => navigation.navigate('Login')}>
                     <Text style={styles.buttonText}>Start</Text>
                 </Pressable>
             </View>
