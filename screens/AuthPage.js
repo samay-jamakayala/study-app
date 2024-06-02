@@ -43,7 +43,7 @@ export default function AuthPage() {
                 <Text style={styles.dividerText}>or continue with</Text>
                 <View style={styles.dividerLine} />
             </View>
-            <Pressable style={styles.signUpLogInButton}>
+            <Pressable style={styles.signUpLogInButton} onPress={() => navigation.navigate('Login')}>
                 <Text style={styles.signUpLogInButtonText}>Log in with email</Text>
             </Pressable>
             <Pressable style={styles.googleButton}>
@@ -112,6 +112,7 @@ export function SignUp({ route }) {
         <SafeAreaView style={styles.appContainer}>
             <Text style={styles.title}>PomoFlow</Text>
             <Text style={styles.createAccountTextHead}>Create a password</Text>
+            <Text style={styles.createAccountTextBody}>Create an confirm a password to continue</Text>
             <TextInput
                 style={styles.input}
                 placeholder="email@domain.com"
@@ -146,9 +147,37 @@ export function SignUp({ route }) {
 }
 
 export function Login() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+
     return (
         <SafeAreaView style={styles.appContainer}>
-
+            <Text style={styles.title}>PomoFlow</Text>
+            <Text style={styles.createAccountTextHead}>Log in with your account</Text>
+            <Text style={styles.createAccountTextBody}>Enter your email and password to continue</Text>
+            <TextInput
+                style={styles.input}
+                placeholder="email@domain.com"
+                onChangeText={setEmail}
+            />
+            <TextInput
+                style={styles.input}
+                placeholder="Password"
+                secureTextEntry
+                onChangeText={text => setPassword(text)}
+                onSubmitEditing={() => {}}
+                returnKeyType="next"
+            />
+            <Pressable style={styles.signUpLogInButton} onPress={{}}>
+                <Text style={styles.signUpLogInButtonText}>Log In</Text>
+            </Pressable>
+            <Pressable style={styles.forgotPassword}>
+                <Text>Forgot your password?</Text>
+            </Pressable>
+            <View style={styles.errorContainer}>
+                <Text style={styles.errorText}>{errorMessage}</Text>
+            </View>
         </SafeAreaView>
     );
 }
@@ -238,6 +267,9 @@ const styles = StyleSheet.create({
         fontSize: 14,
         marginLeft: 5,
         fontWeight: '600',
+    },
+    forgotPassword: {
+        marginTop: 20,
     },
     errorContainer: {
         flex: 1,
