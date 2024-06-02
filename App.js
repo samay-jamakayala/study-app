@@ -7,7 +7,7 @@ import app from './firebaseConfig';
 export default function App() {
 
   const Stack = createNativeStackNavigator();
-  const initialRouteName = "Dashboard";
+  const initialRouteName = "Welcome";
 
   const auth = getAuth(app);
   onAuthStateChanged(auth, (user) => {

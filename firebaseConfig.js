@@ -1,5 +1,3 @@
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
 
@@ -17,10 +15,4 @@ const firebaseConfigInfo = {
 
 // Initialize Firebase
 const app = firebase.initializeApp(firebaseConfigInfo);
-
-// Function to store high score in the database
-// export function storeLogin(userID, pass) {
-//   firebase.database().ref('users/' + userID).set({
-//     password: pass
-//   });
-// }
+export default app;
