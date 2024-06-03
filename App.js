@@ -8,14 +8,17 @@ export default function App() {
 
   const Stack = createNativeStackNavigator();
   let initialRouteName = "Welcome";
+  let isSignedIn = false;
 
   const auth = getAuth(app);
   onAuthStateChanged(auth, (user) => {
     if (user) {
       initialRouteName = "Dashboard";
+      isSignedIn = true;
     }
     else {
       initialRouteName = "Welcome";
+      isSignedIn = false;
     }
   });
 
@@ -26,12 +29,18 @@ export default function App() {
           headerShown: false,
         }}
         initialRouteName={initialRouteName}>
-        <Stack.Screen name="Welcome" component={Welcome} />
-        <Stack.Screen name="AuthPage" component={AuthPage} />
-        <Stack.Screen name="SignUp" component={SignUp} />
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Dashboard" component={Dashboard}
-        />
+        {isSignedIn ? (
+          <>
+            <Stack.Screen name="Dashboard" component={Dashboard} />
+          </>
+        ) : (
+          <>
+            <Stack.Screen name="Welcome" component={Welcome} />
+            <Stack.Screen name="AuthPage" component={AuthPage} />
+            <Stack.Screen name="SignUp" component={SignUp} />
+            <Stack.Screen name="Login" component={Login} />
+          </>
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );
