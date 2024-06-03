@@ -1,19 +1,21 @@
 import { useState, useEffect, useRef } from 'react';
 import { SafeAreaView, StyleSheet, View, Text, Pressable, Dimensions, Animated } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 function Navbar({ currentTimerIndex }) {
+  const navigation = useNavigation();
   const timerDisplay = ["Work", "Short\nBreak", "Long\nBreak"];
 
   return (
     <View style={styles.navbarContainer}>
-      <Pressable style={styles.iconButton}>
+      <Pressable style={styles.iconButton} onPress={() => navigation.navigate('Settings')}>
         <Icon name="cog" size={30} color="black" />
       </Pressable>
       <Text style={styles.timerTitle}>
         {timerDisplay[currentTimerIndex]}
       </Text>
-      <Pressable style={styles.iconButton}>
+      <Pressable style={styles.iconButton} onPress={() => navigation.navigate('Profile')}>
         <Icon name="user" size={30} color="black" />
       </Pressable>
     </View>
