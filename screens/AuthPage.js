@@ -1,6 +1,8 @@
 import { useState, useRef } from 'react';
 import { StyleSheet, SafeAreaView, Text, TextInput, Dimensions, Pressable, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import app from '../firebaseConfig';
 import Logo from '../assets/google-icon.svg';
 
 export default function AuthPage() {
@@ -20,6 +22,9 @@ export default function AuthPage() {
         } else {
             setErrorMessage('Please enter a valid email address');
         }
+    }
+
+    const handleGoogleLogin = () => {
     }
 
     return (
@@ -45,7 +50,7 @@ export default function AuthPage() {
             <Pressable style={styles.signUpLogInButton} onPress={() => navigation.navigate('Login')}>
                 <Text style={styles.signUpLogInButtonText}>Log in with email</Text>
             </Pressable>
-            <Pressable style={styles.googleButton}>
+            <Pressable style={styles.googleButton} onPress={handleGoogleLogin}>
                 <Logo width={20} height={20} />
                 <Text style={styles.googleButtonText}>Google</Text>
             </Pressable>
@@ -57,13 +62,14 @@ export default function AuthPage() {
 }
 
 export function SignUp({ route }) {
-    const [errorMessage, setErrorMessage] = useState('');
     const { email } = route.params;
-
+    const [errorMessage, setErrorMessage] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const passwordInputRef = useRef();
     const confirmPasswordInputRef = useRef();
+
+    const navigation = useNavigation();
 
     const validatePassword = () => {
         // Check if password is at least 8 characters long
@@ -109,7 +115,16 @@ export function SignUp({ route }) {
     const handleSignUp = () => {
         if (validatePassword()) {
             setErrorMessage('');
-            // Sign up logic here
+            const auth = getAuth(app);
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    navigation.navigate('Dashboard', { userCredential: userCredential });
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    setErrorMessage(`${errorCode}: ${errorMessage}`);
+                });
         };
     }
 
@@ -156,6 +171,22 @@ export function Login() {
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
+    const handleSignIn = () => {
+        if (validatePassword()) {
+            setErrorMessage('');
+            const auth = getAuth(app);
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    navigation.navigate('Dashboard', { userCredential: userCredential });
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    setErrorMessage(`${errorCode}: ${errorMessage}`);
+                });
+        };
+    }
+
     return (
         <SafeAreaView style={styles.appContainer}>
             <Text style={styles.title}>PomoFlow</Text>
@@ -171,10 +202,10 @@ export function Login() {
                 placeholder="Password"
                 secureTextEntry
                 onChangeText={text => setPassword(text)}
-                onSubmitEditing={() => {}}
+                onSubmitEditing={() => { }}
                 returnKeyType="next"
             />
-            <Pressable style={styles.signUpLogInButton} onPress={{}}>
+            <Pressable style={styles.signUpLogInButton} onPress={handleSignIn}>
                 <Text style={styles.signUpLogInButtonText}>Log In</Text>
             </Pressable>
             <Pressable style={styles.forgotPassword}>

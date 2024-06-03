@@ -142,7 +142,8 @@ function Timer({ currentTimerIndex, setCurrentTimerIndex }) {
   );
 }
 
-export default function Dashboard() {
+export default function Dashboard({ route }) {
+  const { userCredential } = route.params;
   const [currentTimerIndex, setCurrentTimerIndex] = useState(0);
 
   return (
