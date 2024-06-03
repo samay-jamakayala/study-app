@@ -14,12 +14,6 @@ export default function App() {
       <Navbar currentTimerIndex={currentTimerIndex}/>
       <Timer currentTimerIndex={currentTimerIndex} setCurrentTimerIndex={setCurrentTimerIndex} />
       <TodoList />
-<<<<<<< HEAD
-
-=======
->>>>>>> 814a5be2619b12aa6381e5ab0e913d86f5d1f673
-      
-      
     </SafeAreaView >
   );
 }

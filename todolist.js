@@ -170,15 +170,12 @@ const styles = StyleSheet.create({
     todoItem: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#F3F3F3',
         padding: 10,
         borderRadius: 10,
         marginVertical: 5,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.2,
-        shadowRadius: 2,
-        elevation: 2,
+        width: '100%',
+        borderBottomWidth: 1, // Add border
+        borderBottomColor: '#000', // Addr border color
     },
     checkbox: {
         width: 24,
