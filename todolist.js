@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, Dimensions, TextInput, TouchableOpacity, ScrollView, Keyboard } from 'react-native';
+import { StyleSheet, Text, View, Button, Dimensions, TextInput, TouchableOpacity, ScrollView, Keyboard, Draggable } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'; // Import icons for the checkbox
 // import DraggableFlatList from 'react-native-draggable-flatlist';
 
@@ -104,7 +104,8 @@ export default function TodoList() {
                 <Button title="Add" onPress={addTask} />
             </View>
             <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
-                {tasks.map(task => (
+                {/* <Draggable> */}
+                    {tasks.map(task => (
                     <TodoItem
                         key={task.id}
                         task={task}
@@ -112,6 +113,7 @@ export default function TodoList() {
                         toggleCompleted={toggleCompleted}
                     />
                 ))}
+                {/* </Draggable>      */}
             </ScrollView>
             {/* <DraggableFlatList
                     data={tasks}
@@ -138,15 +140,16 @@ const styles = StyleSheet.create({
         flex: 1,
         width: windowWidth * 0.8, // 80% of screen width
         backgroundColor: '#F3F3F3',
-        borderRadius: 0,
+        borderRadius: 10,
         padding: 20,
         marginTop: -70,
     },
     inputContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 10,
+        marginBottom: 5,
         backgroundColor: '#F3F3F3',
+        width: '100%',
     },
     input: {
         flex: 1,
@@ -163,6 +166,7 @@ const styles = StyleSheet.create({
         shadowRadius: 2,
         elevation: 2,
         color: '#000',
+        
     },
     scrollContainer: {
         flex: 1,
@@ -171,11 +175,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingVertical: 10,
-        paddingHorizontal: 20,
+        paddingHorizontal: 10,
         width: '100%',
         borderBottomWidth: 1,
         borderBottomColor: '#000',
         borderRadius: 0, // Set borderRadius to 0 or a lower value
+        marginTop: 0,
     },
     checkbox: {
         width: 24,
