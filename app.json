@@ -1,5 +1,6 @@
 {
   "expo": {
+    "owner": "cs4720-team4",
     "name": "study-app",
     "slug": "study-app",
     "version": "1.0.0",
@@ -22,6 +23,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "6fe0cbe7-8dac-4267-8854-8f35cc773b68"
+      }
     }
   }
 }
