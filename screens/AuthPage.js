@@ -116,8 +116,8 @@ export function SignUp({ route }) {
             setErrorMessage('');
             const auth = getAuth(app);
             createUserWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-                    // navigation.navigate('Dashboard', { userCredential: userCredential });
+                .then(() => {
+                    // Sign up successful
                 })
                 .catch((error) => {
                     const errorCode = error.code;
