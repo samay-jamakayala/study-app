@@ -3,7 +3,7 @@ import Timer from './Timer';
 import Navbar from './Navbar';
 import "./firebaseConfig";
 import { SafeAreaView , StyleSheet } from 'react-native';
-import TodoList from './todolist';
+import TodoList from './Todolist';
 
 export default function App() {
   const [currentTimerIndex, setCurrentTimerIndex] = useState(0);

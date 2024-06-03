@@ -1,60 +1,44 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, Dimensions, TextInput, TouchableOpacity, ScrollView, Keyboard, Draggable } from 'react-native';
+import { StyleSheet, Text, View, Button, Dimensions, TextInput, TouchableOpacity, ScrollView, Keyboard } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'; // Import icons for the checkbox
 // import DraggableFlatList from 'react-native-draggable-flatlist';
+import DraggableFlatList from 'react-native-draggable-flatlist'
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
 
 export default function TodoList() {
-    // State Hooks
     const [tasks, setTasks] = useState([]);
     const [text, setText] = useState('');
-    //const [inputVisible, setInputVisible] = useState(false);
 
-    // Function to Add Task
     function addTask() {
         if (text.trim()) {
-            const newTask = { id: Date.now(), text, completed: false };
+            const newTask = { id: Date.now().toString(), text, completed: false };
             setTasks([...tasks, newTask]);
             setText('');
-            Keyboard.dismiss(); // Dismiss the keyboard
+            Keyboard.dismiss();
         }
     }
 
-    // Function to Delete Task
     function deleteTask(id) {
         setTasks(tasks.filter(task => task.id !== id));
     }
 
-    // Function to Toggle Task Completion
     function toggleCompleted(id) {
         setTasks(tasks.map(task => (task.id === id ? { ...task, completed: !task.completed } : task)));
     }
-    // const renderItem = ({ item, drag, isActive }) => {
-    //     return (
-    //         <TouchableOpacity
-    //             style={[
-    //                 styles.todoItem,
-    //                 { backgroundColor: isActive ? '#e0e0e0' : '#fff' },
-    //             ]}
-    //             onLongPress={drag}
-    //         >
-    //             <MaterialIcons name="drag-handle" size={24} color="#000" style={styles.dragHandle} />
-    //             <CustomCheckbox
-    //                 completed={item.completed}
-    //                 onPress={() => toggleCompleted(item.id)}
-    //             />
-    //             <Text style={[styles.todoItemText, item.completed && styles.completed]}>
-    //                 {item.text}
-    //             </Text>
-    //             <TouchableOpacity
-    //                 style={styles.deleteButton}
-    //                 onPress={() => deleteTask(item.id)}
-    //             >
-    //                 <Text style={{ color: '#fff' }}>X</Text>
-    //             </TouchableOpacity>
-    //         </TouchableOpacity>
-    //     );
-    // };
-    // Custom Checkbox Component
+
+    const renderItem = ({ item, drag, isActive }) => {
+        return (
+            <TodoItem
+                task={item}
+                deleteTask={deleteTask}
+                toggleCompleted={toggleCompleted}
+                drag={drag}
+                isActive={isActive}
+            />
+        );
+    };
+
     function CustomCheckbox({ completed, onPress }) {
         return (
             <TouchableOpacity
@@ -66,10 +50,16 @@ export default function TodoList() {
         );
     }
 
-    // TodoItem Component
-    function TodoItem({ task, deleteTask, toggleCompleted }) {
+    function TodoItem({ task, deleteTask, toggleCompleted, drag, isActive }) {
         return (
-            <View style={styles.todoItem}>
+            <TouchableOpacity
+                style={[
+                    styles.todoItem,
+                    { backgroundColor: isActive ? '#e0e0e0' : '#F3F3F3' },
+                ]}
+                onLongPress={drag}
+            >
+                <MaterialIcons name="drag-indicator" size={24} color="#000" style={styles.dragHandle} />
                 <CustomCheckbox
                     completed={task.completed}
                     onPress={() => toggleCompleted(task.id)}
@@ -83,46 +73,34 @@ export default function TodoList() {
                 >
                     <Text style={{ color: '#fff' }}>Delete</Text>
                 </TouchableOpacity>
-            </View>
+            </TouchableOpacity>
         );
     }
 
-    // Render TodoList Component
     return (
-        <View style={styles.container}>
-        <View style={styles.todoContainer}>
-            <View style={styles.inputContainer}>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Enter a task..."
-                    value={text}
-                    onChangeText={setText}
-                    onSubmitEditing={addTask} // Add task when return key is pressed
-                    returnKeyType="done" // Set return key type to 'done'
-                    autoFocus={true} // Automatically focus the input when it appears
-                />
-                <Button title="Add" onPress={addTask} />
-            </View>
-            <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
-                {/* <Draggable> */}
-                    {tasks.map(task => (
-                    <TodoItem
-                        key={task.id}
-                        task={task}
-                        deleteTask={deleteTask}
-                        toggleCompleted={toggleCompleted}
+        <GestureHandlerRootView style={styles.container}>
+            <View style={styles.todoContainer}>
+                <View style={styles.inputContainer}>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Enter a task..."
+                        value={text}
+                        onChangeText={setText}
+                        onSubmitEditing={addTask}
+                        returnKeyType="done"
+                        autoFocus={true}
                     />
-                ))}
-                {/* </Draggable>      */}
-            </ScrollView>
-            {/* <DraggableFlatList
+                    <Button title="Add" onPress={addTask} />
+                </View>
+                <DraggableFlatList
                     data={tasks}
                     renderItem={renderItem}
-                    keyExtractor={(item) => item.id.toString()}
+                    keyExtractor={(item) => item.id}
                     onDragEnd={({ data }) => setTasks(data)}
-            /> */}
-        </View>
-    </View>
+                    contentContainerStyle={{ backgroundColor: '#F3F3F3' }}
+                />
+            </View>
+        </GestureHandlerRootView>
     );
 }
 
@@ -138,7 +116,7 @@ const styles = StyleSheet.create({
     },
     todoContainer: {
         flex: 1,
-        width: windowWidth * 0.8, // 80% of screen width
+        width: windowWidth * 0.8,
         backgroundColor: '#F3F3F3',
         borderRadius: 10,
         padding: 20,
@@ -166,10 +144,6 @@ const styles = StyleSheet.create({
         shadowRadius: 2,
         elevation: 2,
         color: '#000',
-        
-    },
-    scrollContainer: {
-        flex: 1,
     },
     todoItem: {
         flexDirection: 'row',
@@ -179,21 +153,22 @@ const styles = StyleSheet.create({
         width: '100%',
         borderBottomWidth: 1,
         borderBottomColor: '#000',
-        borderRadius: 0, // Set borderRadius to 0 or a lower value
+        borderRadius: 0,
         marginTop: 0,
+        backgroundColor: '#F3F3F3',
     },
     checkbox: {
         width: 24,
         height: 24,
-        // borderRadius: 12, // Make it a circle
         borderWidth: 2,
         borderColor: '#000',
         alignItems: 'center',
         justifyContent: 'center',
         marginRight: 10,
+        backgroundColor: '#F3F3F3',
     },
     checkboxCompleted: {
-        backgroundColor: '#F3F3F3', // Changed color to black
+        backgroundColor: '#F3F3F3',
     },
     todoItemText: {
         flex: 1,
@@ -208,6 +183,9 @@ const styles = StyleSheet.create({
         padding: 5,
         borderRadius: 5,
         marginLeft: 10,
+    },
+    dragHandle: {
+        marginRight: 10,
     },
 });
 
