@@ -220,11 +220,11 @@ const styles = StyleSheet.create({
         color: 'white',
         textAlign: 'center',
     },
-    todoPlaceHolder: {
-        width: windowWidth * 0.8, // 80% of screen width
-        height: windowHeight * .40,
-        backgroundColor: '#F3F3F3',
-        borderRadius: 15,
-        marginTop: 20,
-    }
+    // todoPlaceHolder: {
+    //     width: windowWidth * 0.8, // 80% of screen width
+    //     height: windowHeight * .40,
+    //     backgroundColor: '#F3F3F3',
+    //     borderRadius: 15,
+    //     marginTop: 20,
+    // }
 });
