@@ -57,7 +57,6 @@ const styles = StyleSheet.create({
     appContainer: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: '#F3E9E1',
         overflow: 'hidden',
     },
 });
