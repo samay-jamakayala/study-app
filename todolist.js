@@ -89,7 +89,6 @@ export default function TodoList() {
 
     // Render TodoList Component
     return (
-        <View style={styles.container}>
         <View style={styles.todoContainer}>
             <View style={styles.inputContainer}>
                 <TextInput
@@ -105,7 +104,7 @@ export default function TodoList() {
             </View>
             <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
                 {/* <Draggable> */}
-                    {tasks.map(task => (
+                {tasks.map(task => (
                     <TodoItem
                         key={task.id}
                         task={task}
@@ -122,7 +121,6 @@ export default function TodoList() {
                     onDragEnd={({ data }) => setTasks(data)}
             /> */}
         </View>
-    </View>
     );
 }
 
@@ -130,19 +128,13 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        marginTop: 20,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
     todoContainer: {
         flex: 1,
         width: windowWidth * 0.8, // 80% of screen width
         backgroundColor: '#F3F3F3',
         borderRadius: 10,
         padding: 20,
-        marginTop: -70,
+        marginTop: 20,
     },
     inputContainer: {
         flexDirection: 'row',
@@ -166,7 +158,7 @@ const styles = StyleSheet.create({
         shadowRadius: 2,
         elevation: 2,
         color: '#000',
-        
+
     },
     scrollContainer: {
         flex: 1,

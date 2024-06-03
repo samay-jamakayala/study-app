@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Text, View, Animated, Pressable, Dimensions } from 'react-native';
+import TodoList from './todolist';
+
 
 export default function Timer({ currentTimerIndex, setCurrentTimerIndex }) {
 
@@ -128,7 +130,7 @@ export default function Timer({ currentTimerIndex, setCurrentTimerIndex }) {
                         <Text style={styles.buttonText}>Switch</Text>
                     </Pressable>
                 </View>
-                {/* <View style={styles.todoPlaceHolder} /> */}
+                <TodoList />
             </View>
         </View>
     );
