@@ -32,6 +32,7 @@ export default function App() {
         initialRouteName={initialRouteName}>
         {isSignedIn ? (
           <>
+            {/* I want to look into possibly using tab navigation rather than stack for the future. */}
             <Stack.Screen name="Dashboard" component={Dashboard} />
             <Stack.Screen
               name="Profile"
