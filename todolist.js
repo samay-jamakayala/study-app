@@ -7,7 +7,7 @@ export default function TodoList() {
     // State Hooks
     const [tasks, setTasks] = useState([]);
     const [text, setText] = useState('');
-    const [inputVisible, setInputVisible] = useState(false);
+    //const [inputVisible, setInputVisible] = useState(false);
 
     // Function to Add Task
     function addTask() {
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
         flex: 1,
         width: windowWidth * 0.8, // 80% of screen width
         backgroundColor: '#F3F3F3',
-        borderRadius: 15,
+        borderRadius: 0,
         padding: 20,
         marginTop: -70,
     },
@@ -170,12 +170,12 @@ const styles = StyleSheet.create({
     todoItem: {
         flexDirection: 'row',
         alignItems: 'center',
-        padding: 10,
-        borderRadius: 10,
-        marginVertical: 5,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
         width: '100%',
-        borderBottomWidth: 1, // Add border
-        borderBottomColor: '#000', // Addr border color
+        borderBottomWidth: 1,
+        borderBottomColor: '#000',
+        borderRadius: 0, // Set borderRadius to 0 or a lower value
     },
     checkbox: {
         width: 24,
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
         color: '#aaa',
     },
     deleteButton: {
-        backgroundColor: '#ff6347',
+        backgroundColor: '#000',
         padding: 5,
         borderRadius: 5,
         marginLeft: 10,
