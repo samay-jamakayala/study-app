@@ -32,12 +32,7 @@ export default function App() {
         initialRouteName={initialRouteName}>
         {isSignedIn ? (
           <>
-            <Stack.Screen
-              name="Dashboard"
-              component={Dashboard}
-              options={{
-                animationTypeForReplace: 'pop',
-              }} />
+            <Stack.Screen name="Dashboard" component={Dashboard} />
             <Stack.Screen
               name="Profile"
               component={Profile}
