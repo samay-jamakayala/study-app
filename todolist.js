@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button, Dimensions, TextInput, TouchableOpacity, ScrollView, Keyboard } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'; // Import icons for the checkbox
-// import DraggableFlatList from 'react-native-draggable-flatlist';
 import DraggableFlatList from 'react-native-draggable-flatlist'
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
@@ -10,6 +9,7 @@ export default function TodoList() {
     const [tasks, setTasks] = useState([]);
     const [text, setText] = useState('');
 
+    // adds tasks
     function addTask() {
         if (text.trim()) {
             const newTask = { id: Date.now().toString(), text, completed: false };
@@ -19,26 +19,17 @@ export default function TodoList() {
         }
     }
 
+    // delete task
     function deleteTask(id) {
         setTasks(tasks.filter(task => task.id !== id));
     }
 
+    // toggle task completion
     function toggleCompleted(id) {
         setTasks(tasks.map(task => (task.id === id ? { ...task, completed: !task.completed } : task)));
     }
 
-    const renderItem = ({ item, drag, isActive }) => {
-        return (
-            <TodoItem
-                task={item}
-                deleteTask={deleteTask}
-                toggleCompleted={toggleCompleted}
-                drag={drag}
-                isActive={isActive}
-            />
-        );
-    };
-
+    // Custom checkbox component
     function CustomCheckbox({ completed, onPress }) {
         return (
             <TouchableOpacity
@@ -49,7 +40,7 @@ export default function TodoList() {
             </TouchableOpacity>
         );
     }
-
+     // Todo item component
     function TodoItem({ task, deleteTask, toggleCompleted, drag, isActive }) {
         return (
             <TouchableOpacity
@@ -77,8 +68,21 @@ export default function TodoList() {
         );
     }
 
+    // renders todo items
+    const renderItem = ({ item, drag, isActive }) => {
+        return (
+            <TodoItem
+                task={item}
+                deleteTask={deleteTask}
+                toggleCompleted={toggleCompleted}
+                drag={drag}
+                isActive={isActive}
+            />
+        );
+    };
+
     return (
-        <GestureHandlerRootView style={styles.container}>
+        <GestureHandlerRootView>
             <View style={styles.todoContainer}>
                 <View style={styles.inputContainer}>
                     <TextInput
@@ -92,13 +96,16 @@ export default function TodoList() {
                     />
                     <Button title="Add" onPress={addTask} />
                 </View>
-                <DraggableFlatList
-                    data={tasks}
-                    renderItem={renderItem}
-                    keyExtractor={(item) => item.id}
-                    onDragEnd={({ data }) => setTasks(data)}
-                    contentContainerStyle={{ backgroundColor: '#F3F3F3' }}
-                />
+                <View>
+                    <DraggableFlatList style={{ height: windowHeight * 0.4 } }
+                        data={tasks}
+                        renderItem={renderItem}
+                        keyExtractor={(item) => item.id}
+                        onDragEnd={({ data }) => setTasks(data)}
+                        showsVerticalScrollIndicator={false}
+
+                    />
+                </View>
             </View>
         </GestureHandlerRootView>
     );
