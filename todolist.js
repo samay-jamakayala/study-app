@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
+<<<<<<< HEAD
 import { StyleSheet, Text, View, Button, Dimensions, TextInput, TouchableOpacity, ScrollView, Keyboard } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'; // Import icons for the checkbox
 // import DraggableFlatList from 'react-native-draggable-flatlist';
 
+=======
+import { StyleSheet, Text, View, Button, Dimensions, TextInput, TouchableOpacity } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons'; // Import icons for the checkbox
+import TodoItem from './todoitem';
+>>>>>>> 814a5be2619b12aa6381e5ab0e913d86f5d1f673
 
 export default function TodoList() {
     // State Hooks
@@ -67,6 +73,7 @@ export default function TodoList() {
         );
     }
 
+<<<<<<< HEAD
     // TodoItem Component
     function TodoItem({ task, deleteTask, toggleCompleted }) {
         return (
@@ -85,12 +92,24 @@ export default function TodoList() {
                     <Text style={{ color: '#fff' }}>Delete</Text>
                 </TouchableOpacity>
             </View>
+=======
+    // Custom Checkbox Component
+    function CustomCheckbox({ completed, onPress }) {
+        return (
+            <TouchableOpacity
+                style={[styles.checkbox, completed && styles.checkboxCompleted]}
+                onPress={onPress}
+            >
+                {completed && <MaterialIcons name="check" size={18} color="#fff" />}
+            </TouchableOpacity>
+>>>>>>> 814a5be2619b12aa6381e5ab0e913d86f5d1f673
         );
     }
 
     // Render TodoList Component
     return (
         <View style={styles.container}>
+<<<<<<< HEAD
         <View style={styles.todoContainer}>
             <View style={styles.inputContainer}>
                 <TextInput
@@ -120,6 +139,25 @@ export default function TodoList() {
                     keyExtractor={(item) => item.id.toString()}
                     onDragEnd={({ data }) => setTasks(data)}
             /> */}
+=======
+            <View style={styles.inputContainer}>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Enter a task"
+                    value={text}
+                    onChangeText={setText}
+                />
+                <Button title="Add" onPress={addTask} />
+            </View>
+            {tasks.map(task => (
+                <TodoItem
+                    key={task.id}
+                    task={task}
+                    deleteTask={deleteTask}
+                    toggleCompleted={toggleCompleted}
+                />
+            ))}
+>>>>>>> 814a5be2619b12aa6381e5ab0e913d86f5d1f673
         </View>
     </View>
     );
@@ -129,8 +167,22 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
+    input: {
+        flex: 1,
+        height: 40,
+        backgroundColor: '#F3F3F3',
+        borderRadius: 5,
+        padding: 10,
+        marginRight: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 2,
+        elevation: 2,
+    },
     container: {
         flex: 1,
+<<<<<<< HEAD
         marginTop: 20,
         alignItems: 'center',
         justifyContent: 'center',
@@ -167,11 +219,20 @@ const styles = StyleSheet.create({
     },
     scrollContainer: {
         flex: 1,
+=======
+        width: windowWidth * 0.8,
+        backgroundColor: '#F3F3F3',
+        borderRadius: 15,
+        marginTop: 20,
+        padding: 20,
+        alignItems: 'center'
+>>>>>>> 814a5be2619b12aa6381e5ab0e913d86f5d1f673
     },
-    todoItem: {
+    inputContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: '#F3F3F3',
+<<<<<<< HEAD
         padding: 10,
         borderRadius: 10,
         marginVertical: 5,
@@ -201,6 +262,10 @@ const styles = StyleSheet.create({
     completed: {
         textDecorationLine: 'line-through',
         color: '#aaa',
+=======
+        marginBottom: 7,
+
+>>>>>>> 814a5be2619b12aa6381e5ab0e913d86f5d1f673
     },
     deleteButton: {
         backgroundColor: '#ff6347',
