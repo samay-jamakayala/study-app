@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Dashboard, AuthPage, SignUp, Login, Welcome } from './screens';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -8,17 +9,17 @@ export default function App() {
 
   const Stack = createNativeStackNavigator();
   let initialRouteName = "Welcome";
-  let isSignedIn = false;
+  const [isSignedIn, setIsSignedIn] = useState(false);
 
   const auth = getAuth(app);
   onAuthStateChanged(auth, (user) => {
     if (user) {
       initialRouteName = "Dashboard";
-      isSignedIn = true;
+      setIsSignedIn(true);
     }
     else {
       initialRouteName = "Welcome";
-      isSignedIn = false;
+      setIsSignedIn(false);
     }
   });
 
@@ -31,7 +32,12 @@ export default function App() {
         initialRouteName={initialRouteName}>
         {isSignedIn ? (
           <>
-            <Stack.Screen name="Dashboard" component={Dashboard} />
+            <Stack.Screen
+              name="Dashboard"
+              component={Dashboard}
+              options={{
+                animationTypeForReplace: 'pop',
+              }} />
           </>
         ) : (
           <>

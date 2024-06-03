@@ -66,7 +66,6 @@ export function SignUp({ route }) {
     const [errorMessage, setErrorMessage] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const passwordInputRef = useRef();
     const confirmPasswordInputRef = useRef();
 
     const navigation = useNavigation();
@@ -118,12 +117,18 @@ export function SignUp({ route }) {
             const auth = getAuth(app);
             createUserWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
-                    navigation.navigate('Dashboard', { userCredential: userCredential });
+                    // navigation.navigate('Dashboard', { userCredential: userCredential });
                 })
                 .catch((error) => {
                     const errorCode = error.code;
                     const errorMessage = error.message;
-                    setErrorMessage(`${errorCode}: ${errorMessage}`);
+                    console.log(`${errorCode}: ${errorMessage}`);
+                    if (errorCode === 'auth/email-already-in-use') {
+                        setErrorMessage('Email already in use');
+                    }
+                    else {
+                        setErrorMessage('Error creating user');
+                    }
                 });
         };
     }
@@ -140,7 +145,6 @@ export function SignUp({ route }) {
                 editable={false}
             />
             <TextInput
-                ref={passwordInputRef}
                 style={styles.input}
                 placeholder="Password"
                 secureTextEntry
@@ -170,21 +174,27 @@ export function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const passwordInputRef = useRef();
 
     const handleSignIn = () => {
-        if (validatePassword()) {
-            setErrorMessage('');
-            const auth = getAuth(app);
-            signInWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-                    navigation.navigate('Dashboard', { userCredential: userCredential });
-                })
-                .catch((error) => {
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    setErrorMessage(`${errorCode}: ${errorMessage}`);
-                });
-        };
+        setErrorMessage('');
+        const auth = getAuth(app);
+        signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                // navigation.navigate('Dashboard', { userCredential: userCredential });
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log(`${errorCode}: ${errorMessage}`);
+                if (errorCode === 'auth/invalid-credential') {
+                    setErrorMessage('Email or password is incorrect');
+                }
+                if (errorCode === 'auth/invalid-email') {
+                    setErrorMessage('Email or password is incorrect');
+                    
+                }
+            });
     }
 
     return (
@@ -196,13 +206,16 @@ export function Login() {
                 style={styles.input}
                 placeholder="email@domain.com"
                 onChangeText={setEmail}
+                onSubmitEditing={() => passwordInputRef.current.focus()}
+                returnKeyType="next"
             />
             <TextInput
+                ref={passwordInputRef}
                 style={styles.input}
                 placeholder="Password"
                 secureTextEntry
                 onChangeText={text => setPassword(text)}
-                onSubmitEditing={() => { }}
+                onSubmitEditing={handleSignIn}
                 returnKeyType="next"
             />
             <Pressable style={styles.signUpLogInButton} onPress={handleSignIn}>
