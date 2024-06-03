@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Dashboard, AuthPage, SignUp, Login, Welcome } from './screens';
+import { Dashboard, AuthPage, SignUp, Login, Welcome, Profile, Settings } from './screens';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -38,6 +38,19 @@ export default function App() {
               options={{
                 animationTypeForReplace: 'pop',
               }} />
+            <Stack.Screen
+              name="Profile"
+              component={Profile}
+              options={{
+                animation: 'slide_from_right',
+              }} />
+            <Stack.Screen
+              name="Settings"
+              component={Settings}
+              options={{
+                animation: 'slide_from_left',
+              }}
+            />
           </>
         ) : (
           <>
