@@ -83,7 +83,7 @@ export default function TodoList() {
     };
 
     return (
-        <GestureHandlerRootView>
+        <GestureHandlerRootView >
             <View style={styles.todoContainer}>
                 <View style={styles.inputContainer}>
                     <TextInput
@@ -98,13 +98,12 @@ export default function TodoList() {
                     <Button title="Add" onPress={addTask} />
                 </View>
                 <View>
-                    <DraggableFlatList style={{ height: windowHeight * 0.4 } }
+                    <DraggableFlatList style={{ height: '100%', width: '100%'}}
                         data={tasks}
                         renderItem={renderItem}
                         keyExtractor={(item) => item.id}
                         onDragEnd={({ data }) => setTasks(data)}
                         showsVerticalScrollIndicator={false}
-
                     />
                 </View>
             </View>
@@ -120,7 +119,6 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: 20,
         alignItems: 'center',
-        justifyContent: 'center',
     },
     todoContainer: {
         flex: 1,
@@ -128,7 +126,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#F3F3F3',
         borderRadius: 10,
         padding: 20,
-        marginTop: -70,
+        marginTop: 20,
+        maxHeight: windowHeight * 0.47,
     },
     inputContainer: {
         flexDirection: 'row',

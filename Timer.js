@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Text, View, Animated, Pressable, Dimensions } from 'react-native';
-import TodoList from './todolist';
+import TodoList from './Todolist';
 
 
 export default function Timer({ currentTimerIndex, setCurrentTimerIndex }) {
