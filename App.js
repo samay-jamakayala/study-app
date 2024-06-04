@@ -1,26 +1,52 @@
-import React, { useState, useEffect } from 'react';
-import Timer from './Timer';
-import Navbar from './Navbar';
-import "./firebaseConfig";
-import { SafeAreaView , StyleSheet } from 'react-native';
-import TodoList from './Todolist';
+import { useState } from 'react';
+import { Dashboard, AuthPage, SignUp, Login, Welcome, Profile, Settings } from './screens';
+import { NavigationContainer } from '@react-navigation/native';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import app from './firebaseConfig';
 
 export default function App() {
-  const [currentTimerIndex, setCurrentTimerIndex] = useState(0);
+
+  const Stack = createNativeStackNavigator();
+  const Tab = createMaterialTopTabNavigator();
+  const [isSignedIn, setIsSignedIn] = useState(false);
+
+  const auth = getAuth(app);
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      setIsSignedIn(true);
+    }
+    else {
+      setIsSignedIn(false);
+    }
+  });
 
   return (
-    <SafeAreaView  style={styles.appContainer}>
-      
-      <Navbar currentTimerIndex={currentTimerIndex}/>
-      <Timer currentTimerIndex={currentTimerIndex} setCurrentTimerIndex={setCurrentTimerIndex} />
-    </SafeAreaView >
+    <NavigationContainer>
+
+      {isSignedIn ? (
+
+        <Tab.Navigator
+          tabBar={() => null}
+          initialRouteName="Dashboard"
+        >
+          <Tab.Screen name="Settings" component={Settings} />
+          <Tab.Screen name="Dashboard" component={Dashboard} />
+          <Tab.Screen name="Profile" component={Profile} />
+        </Tab.Navigator>
+      ) : (
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+          }}
+          initialRouteName="Welcome">
+          <Stack.Screen name="Welcome" component={Welcome} />
+          <Stack.Screen name="AuthPage" component={AuthPage} />
+          <Stack.Screen name="SignUp" component={SignUp} />
+          <Stack.Screen name="Login" component={Login} />
+        </Stack.Navigator>
+      )}
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  appContainer: {
-    flex: 1,
-    alignItems: 'center',
-    backgroundColor: '#F3E9E1',
-  }
-});
