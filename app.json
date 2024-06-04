@@ -19,7 +19,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.cs4720team4.studyapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
