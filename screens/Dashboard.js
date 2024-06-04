@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { SafeAreaView, StyleSheet, View, Text, Pressable, Dimensions, Animated, Keyboard, TouchableOpacity, TextInput, Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import DraggableFlatList from 'react-native-draggable-flatlist';
@@ -6,6 +6,16 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { MaterialIcons } from '@expo/vector-icons'; // Import icons for the checkbox
 
+export default function Dashboard({ route }) {
+  const [currentTimerIndex, setCurrentTimerIndex] = useState(0);
+
+  return (
+    <SafeAreaView style={styles.appContainer}>
+      <Navbar currentTimerIndex={currentTimerIndex} />
+      <Timer currentTimerIndex={currentTimerIndex} setCurrentTimerIndex={setCurrentTimerIndex} />
+    </SafeAreaView >
+  );
+}
 
 function Navbar({ currentTimerIndex }) {
   const navigation = useNavigation();
@@ -13,13 +23,13 @@ function Navbar({ currentTimerIndex }) {
 
   return (
     <View style={styles.navbarContainer}>
-      <Pressable style={styles.iconButton} onPress={() => navigation.navigate('Settings')}>
+      <Pressable style={styles.iconButton} onPress={() => navigation.navigate('Settings', {  })}>
         <Icon name="cog" size={30} color="black" />
       </Pressable>
       <Text style={styles.timerTitle}>
         {timerDisplay[currentTimerIndex]}
       </Text>
-      <Pressable style={styles.iconButton} onPress={() => navigation.navigate('Profile')}>
+      <Pressable style={styles.iconButton} onPress={() => navigation.navigate('Profile', {  })}>
         <Icon name="user" size={30} color="black" />
       </Pressable>
     </View>
@@ -230,7 +240,7 @@ function TodoList() {
             onChangeText={setText}
             onSubmitEditing={addTask}
             returnKeyType="done"
-            autoFocus={true}
+            // autoFocus={true}
           />
           <Button title="Add" onPress={addTask} />
         </View>
@@ -245,17 +255,6 @@ function TodoList() {
     </GestureHandlerRootView>
   );
 };
-
-export default function Dashboard() {
-  const [currentTimerIndex, setCurrentTimerIndex] = useState(0);
-
-  return (
-    <SafeAreaView style={styles.appContainer}>
-      <Navbar currentTimerIndex={currentTimerIndex} />
-      <Timer currentTimerIndex={currentTimerIndex} setCurrentTimerIndex={setCurrentTimerIndex} />
-    </SafeAreaView >
-  );
-}
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;

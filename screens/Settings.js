@@ -1,8 +1,6 @@
 import { SafeAreaView, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 
 export default function Settings() {
-    const navigation = useNavigation();
 
     return (
         <SafeAreaView style={styles.appContainer}>
