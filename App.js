@@ -4,13 +4,25 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import app from './firebaseConfig';
 
 export default function App() {
-
   const Stack = createNativeStackNavigator();
   const Tab = createMaterialTopTabNavigator();
   const [isSignedIn, setIsSignedIn] = useState(false);
+
+  // Load isSignedIn state from local storage
+  useEffect(() => {
+    const loadAuthStateFromStorage = async () => {
+      const storedAuthState = await AsyncStorage.getItem('isSignedIn');
+      if (storedAuthState) {
+        setIsSignedIn(JSON.parse(storedAuthState));
+      }
+    };
+
+    loadAuthStateFromStorage();
+  }, []);
 
   const auth = getAuth(app);
   onAuthStateChanged(auth, (user) => {

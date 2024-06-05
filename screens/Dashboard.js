@@ -1,10 +1,14 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { SafeAreaView, StyleSheet, View, Text, Pressable, Dimensions, Animated, Keyboard, TouchableOpacity, TextInput, Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import { MaterialIcons } from '@expo/vector-icons'; // Import icons for the checkbox
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import firebase from 'firebase';
+import app from '../firebaseConfig';
+
 
 export default function Dashboard({ route }) {
   const [currentTimerIndex, setCurrentTimerIndex] = useState(0);
@@ -23,13 +27,13 @@ function Navbar({ currentTimerIndex }) {
 
   return (
     <View style={styles.navbarContainer}>
-      <Pressable style={styles.iconButton} onPress={() => navigation.navigate('Settings', {  })}>
+      <Pressable style={styles.iconButton} onPress={() => navigation.navigate('Settings', {})}>
         <Icon name="cog" size={30} color="black" />
       </Pressable>
       <Text style={styles.timerTitle}>
         {timerDisplay[currentTimerIndex]}
       </Text>
-      <Pressable style={styles.iconButton} onPress={() => navigation.navigate('Profile', {  })}>
+      <Pressable style={styles.iconButton} onPress={() => navigation.navigate('Profile', {})}>
         <Icon name="user" size={30} color="black" />
       </Pressable>
     </View>
@@ -159,6 +163,7 @@ function Timer({ currentTimerIndex, setCurrentTimerIndex }) {
 }
 
 function TodoList() {
+  const auth = getAuth(app);
   const [tasks, setTasks] = useState([]);
   const [text, setText] = useState('');
 
@@ -229,6 +234,37 @@ function TodoList() {
     />
   );
 
+  // Load tasks from local storage
+  useEffect(() => {
+    const loadTasksFromStorage = async () => {
+      const storedTasks = await AsyncStorage.getItem('tasks');
+      if (storedTasks) {
+        setTasks(JSON.parse(storedTasks));
+      }
+    };
+
+    loadTasksFromStorage();
+  }, []);
+
+  // Save tasks to local storage
+  useEffect(() => {
+    const saveTasksToStorage = async () => {
+      await AsyncStorage.setItem('tasks', JSON.stringify(tasks));
+    };
+
+    saveTasksToStorage();
+  }, [tasks]);
+
+  // Sync tasks with Firebase
+  useEffect(() => {
+    const saveTasksToFirebase = async () => {
+      const userId = auth.currentUser.uid;
+      await firebase.firestore().collection('tasks').doc(userId).set({ tasks });
+    };
+
+    saveTasksToFirebase();
+  }, [tasks]);
+
   return (
     <GestureHandlerRootView >
       <View style={styles.todoContainer}>
@@ -240,7 +276,7 @@ function TodoList() {
             onChangeText={setText}
             onSubmitEditing={addTask}
             returnKeyType="done"
-            // autoFocus={true}
+          // autoFocus={true}
           />
           <Button title="Add" onPress={addTask} />
         </View>
