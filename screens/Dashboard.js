@@ -198,7 +198,7 @@ function TodoList() {
       style={styles.deleteButtonSwipeable}
       onPress={() => deleteTask(id)}
       >
-        <Text style={styles.deleteButtonText}>Delete</Text>
+        <MaterialIcons name="delete" size={24} color="white"/>
     </TouchableOpacity>
   );
 
@@ -449,9 +449,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: 80,
     height: '100%',
-  },
-  deleteButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
   },
 });
