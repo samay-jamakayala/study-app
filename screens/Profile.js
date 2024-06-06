@@ -1,9 +1,8 @@
 import { SafeAreaView, StyleSheet, Text, Button, Alert } from 'react-native';
 import { getAuth, signOut, deleteUser } from "firebase/auth";
 import app from '../firebaseConfig';
-import { set } from 'firebase/database';
 
-export default function Profile({ route }) {
+export default function Profile() {
     const auth = getAuth(app);
     const user = auth.currentUser;
 
