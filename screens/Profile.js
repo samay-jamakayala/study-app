@@ -1,15 +1,16 @@
 import { SafeAreaView, StyleSheet, Text, Button, Alert } from 'react-native';
-import { getAuth, signOut, deleteUser } from "firebase/auth";
-import app from '../firebaseConfig';
+import { signOut, deleteUser } from "firebase/auth";
+import { auth, db } from '../firebaseConfig';
+import { doc, deleteDoc } from "firebase/firestore";
+// Required for side-effects
+import "firebase/firestore";
 
-export default function Profile({ route }) {
-    const auth = getAuth(app);
-    const user = auth.currentUser;
-
+export default function Profile() {
+    const user = auth.currentUser
 
     const handleSignOut = () => {
         signOut(auth)
-            .then(() => {
+            .then(async () => {
                 // User signed out.
             })
             .catch((error) => {
@@ -30,11 +31,15 @@ export default function Profile({ route }) {
                     text: "OK", onPress: () => {
                         if (user) {
                             deleteUser(user)
-                                .then(() => {
-                                    // User deleted.
+                                .then(async () => {
+                                    // Delete tasks from database
+                                    const docRef = doc(db, "tasks", user.email.toLowerCase());
+                                    await deleteDoc(doc(docRef));
                                 })
-                                .catch((error) => {
+                                .catch(async (error) => {
                                     console.error('Error during account deletion: ', error);
+                                    const docRef = doc(db, "tasks", user.email.toLowerCase());
+                                    await deleteDoc(doc(docRef));
                                 });
                         }
                     }

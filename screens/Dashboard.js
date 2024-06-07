@@ -6,8 +6,10 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { MaterialIcons } from '@expo/vector-icons'; // Import icons for the checkbox
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import firebase from 'firebase';
-import app from '../firebaseConfig';
+import { auth, db } from '../firebaseConfig';
+import { doc, setDoc, getDoc } from "firebase/firestore";
+// Required for side-effects
+import "firebase/firestore";
 
 
 export default function Dashboard({ route }) {
@@ -163,9 +165,11 @@ function Timer({ currentTimerIndex, setCurrentTimerIndex }) {
 }
 
 function TodoList() {
-  const auth = getAuth(app);
   const [tasks, setTasks] = useState([]);
   const [text, setText] = useState('');
+  const userId = auth.currentUser.email.toLowerCase();
+
+  const initialRender = useRef(true);
 
   // adds tasks
   const addTask = () => {
@@ -234,16 +238,37 @@ function TodoList() {
     />
   );
 
-  // Load tasks from local storage
+  // Load tasks
   useEffect(() => {
-    const loadTasksFromStorage = async () => {
-      const storedTasks = await AsyncStorage.getItem('tasks');
-      if (storedTasks) {
-        setTasks(JSON.parse(storedTasks));
+    const loadTasks = async () => {
+      try {
+        const docRef = doc(db, "tasks", userId);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          console.log("Loading tasks from firestore...")
+          console.log(docSnap.data().tasks)
+          setTasks(JSON.parse(docSnap.data()));
+        } else {
+          console.log("No such document!");
+        }
+      } catch (error) {
+        console.log("Error getting document:", error);
+
+        // If firebase cannot connect, check localStorage
+        const storedTasks = await AsyncStorage.getItem('tasks');
+        if (storedTasks) {
+          setTasks(JSON.parse(storedTasks));
+        }
       }
     };
 
-    loadTasksFromStorage();
+    // Only load tasks on initial render of component
+    console.log("load" + initialRender.current)
+    if (initialRender.current) {
+      initialRender.current = false;
+      loadTasks();
+    }
   }, []);
 
   // Save tasks to local storage
@@ -252,16 +277,23 @@ function TodoList() {
       await AsyncStorage.setItem('tasks', JSON.stringify(tasks));
     };
 
-    saveTasksToStorage();
+    console.log("save" + initialRender.current)
+    if (!initialRender.current){
+      saveTasksToStorage();
+    }
   }, [tasks]);
 
   // Sync tasks with Firebase
   useEffect(() => {
     const saveTasksToFirebase = async () => {
-      const userId = auth.currentUser.uid;
-      await firebase.firestore().collection('tasks').doc(userId).set({ tasks });
+      try {
+        await setDoc(doc(db, 'tasks', userId), { tasks });
+        console.log("Document written to firestore");
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
     };
-
+    console.log("Saving tasks to Firebase...");
     saveTasksToFirebase();
   }, [tasks]);
 
