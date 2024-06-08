@@ -1,4 +1,5 @@
-import { SafeAreaView, StyleSheet, Text, Button, Alert } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, Button, Alert, View } from 'react-native';
+import { Header, Icon } from 'react-native-elements';
 import { signOut, deleteUser } from "firebase/auth";
 import { auth, db } from '../firebaseConfig';
 import { doc, deleteDoc } from "firebase/firestore";
@@ -50,7 +51,13 @@ export default function Profile() {
 
     return (
         <SafeAreaView style={styles.appContainer}>
-            <Text>Profile</Text>
+            <View style={styles.headerContainer}>
+                <Header
+                    containerStyle={{ backgroundColor: 'transparent', borderBottomColor: 'transparent' }}
+                    centerComponent={{ text: 'Profile', style: { color: '#000', fontSize: 24, fontFamily: 'Times New Roman' } }}
+                    leftComponent={<Icon name='arrow-back' color='#000' size={30} onPress={() => navigation.navigate('Dashboard')} />}
+                />
+            </View>
             <Text>{user.email}</Text>
             <Button title="Sign Out" onPress={handleSignOut} />
             <Button title="Delete Account" onPress={handleDeleteAccount} color="red" />
@@ -63,5 +70,8 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         overflow: 'hidden',
+    },
+    headerContainer: {
+        width: '90%',
     },
 });
