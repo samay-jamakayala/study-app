@@ -6,7 +6,7 @@ import { doc, deleteDoc } from "firebase/firestore";
 // Required for side-effects
 import "firebase/firestore";
 
-export default function Profile() {
+export default function Profile({ navigation }) {
     const user = auth.currentUser
 
     const handleSignOut = () => {
