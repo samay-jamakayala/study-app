@@ -12,7 +12,7 @@ import { doc, setDoc, getDoc } from "firebase/firestore";
 import "firebase/firestore";
 
 
-export default function Dashboard({ route }) {
+export default function Dashboard() {
   const [currentTimerIndex, setCurrentTimerIndex] = useState(0);
 
   return (
