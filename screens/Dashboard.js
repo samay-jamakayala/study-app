@@ -249,8 +249,12 @@ function TodoList() {
           console.log("Loading tasks from firestore...")
           console.log(docSnap.data().tasks)
           setTasks(JSON.parse(docSnap.data()));
+          initialRender.current = false;
+
         } else {
           console.log("No such document!");
+          initialRender.current = false;
+
         }
       } catch (error) {
         console.log("Error getting document:", error);
@@ -260,13 +264,12 @@ function TodoList() {
         if (storedTasks) {
           setTasks(JSON.parse(storedTasks));
         }
+        initialRender.current = false;
       }
     };
 
     // Only load tasks on initial render of component
-    console.log("load" + initialRender.current)
     if (initialRender.current) {
-      initialRender.current = false;
       loadTasks();
     }
   }, []);
@@ -277,8 +280,7 @@ function TodoList() {
       await AsyncStorage.setItem('tasks', JSON.stringify(tasks));
     };
 
-    console.log("save" + initialRender.current)
-    if (!initialRender.current){
+    if (!initialRender.current) {
       saveTasksToStorage();
     }
   }, [tasks]);
@@ -286,6 +288,7 @@ function TodoList() {
   // Sync tasks with Firebase
   useEffect(() => {
     const saveTasksToFirebase = async () => {
+      console.log("Saving tasks to Firebase...");
       try {
         await setDoc(doc(db, 'tasks', userId), { tasks });
         console.log("Document written to firestore");
@@ -293,8 +296,10 @@ function TodoList() {
         console.error("Error adding document: ", e);
       }
     };
-    console.log("Saving tasks to Firebase...");
-    saveTasksToFirebase();
+
+    if (!initialRender.current) {
+      saveTasksToFirebase();
+    }
   }, [tasks]);
 
   return (
