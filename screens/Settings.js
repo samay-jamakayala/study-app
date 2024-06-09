@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, View } from 'react-native';
+import { SafeAreaView, StyleSheet, View, Text, Dimensions } from 'react-native';
 import { Header, Icon } from 'react-native-elements';
 
 export default function Settings({ navigation }) {
@@ -12,10 +12,18 @@ export default function Settings({ navigation }) {
                     rightComponent={<Icon name='arrow-forward' color='#000' size={30} onPress={() => navigation.navigate('Dashboard')} />}
                 />
             </View>
+            <View style={styles.settingsContainer}>
+                <View style={styles.settingTab}>
+
+                </View>
+            </View>
         </SafeAreaView >
     );
 }
 
+// Design reference: https://www.figma.com/community/file/1331928498416249815
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
     appContainer: {
         flex: 1,
@@ -23,6 +31,13 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
     },
     headerContainer: {
-        width: '90%',
+        width: windowWidth * .9,
     },
+    settingsContainer: {
+        width: windowWidth * .8
+    },
+    settingTab: {
+        flex: 1,
+        flexDirection: "row",
+    }
 });
