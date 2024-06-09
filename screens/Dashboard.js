@@ -170,6 +170,7 @@ function TodoList() {
   const userId = auth.currentUser.email.toLowerCase();
 
   const initialRender = useRef(true);
+  const initialLoad = useRef(false);
 
   // adds tasks
   const addTask = () => {
@@ -248,7 +249,7 @@ function TodoList() {
         if (docSnap.exists()) {
           console.log("Loading tasks from firestore...")
           console.log(docSnap.data().tasks)
-          setTasks(JSON.parse(docSnap.data()));
+          setTasks(docSnap.data().tasks);
           initialRender.current = false;
 
         } else {
@@ -262,7 +263,11 @@ function TodoList() {
         // If firebase cannot connect, check localStorage
         const storedTasks = await AsyncStorage.getItem('tasks');
         if (storedTasks) {
+          console.log("Loaded from local storage.")
           setTasks(JSON.parse(storedTasks));
+        }
+        else {
+          console.log("Nothing found in local storage.")
         }
         initialRender.current = false;
       }
