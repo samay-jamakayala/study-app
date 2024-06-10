@@ -203,7 +203,7 @@ function TodoList() {
   );
 
   // Todo item component, now using swipe delete
-  const TodoItem = ({ task, deleteTask, toggleCompleted, drag, isActive }) => (
+  const TodoItem = ({ task, toggleCompleted, drag, isActive }) => (
     <Swipeable renderRightActions={() => renderRightActions(task.id)}>
       <TouchableOpacity
         style={[
