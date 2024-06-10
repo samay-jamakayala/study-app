@@ -1,8 +1,8 @@
 import { useState, useRef } from 'react';
 import { StyleSheet, SafeAreaView, Text, TextInput, Dimensions, Pressable, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import app from '../firebaseConfig';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../firebaseConfig';
 import Logo from '../assets/google-icon.svg';
 
 export default function AuthPage() {
@@ -114,7 +114,6 @@ export function SignUp({ route }) {
     const handleSignUp = () => {
         if (validatePassword()) {
             setErrorMessage('');
-            const auth = getAuth(app);
             createUserWithEmailAndPassword(auth, email, password)
                 .then(() => {
                     // Sign up successful
@@ -178,7 +177,6 @@ export function Login() {
 
     const handleSignIn = () => {
         setErrorMessage('');
-        const auth = getAuth(app);
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 // navigation.navigate('Dashboard', { userCredential: userCredential });

@@ -3,16 +3,14 @@ import { Dashboard, AuthPage, SignUp, Login, Welcome, Profile, Settings } from '
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import app from './firebaseConfig';
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from './firebaseConfig';
 
 export default function App() {
-
   const Stack = createNativeStackNavigator();
   const Tab = createMaterialTopTabNavigator();
   const [isSignedIn, setIsSignedIn] = useState(false);
 
-  const auth = getAuth(app);
   onAuthStateChanged(auth, (user) => {
     if (user) {
       setIsSignedIn(true);

@@ -1,12 +1,18 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { SafeAreaView, StyleSheet, View, Text, Pressable, Dimensions, Animated, Keyboard, TouchableOpacity, TextInput, Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import { GestureHandlerRootView, Swipeable } from 'react-native-gesture-handler';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import { MaterialIcons } from '@expo/vector-icons'; // Import icons for the checkbox
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { auth, db } from '../firebaseConfig';
+import { doc, setDoc, getDoc } from "firebase/firestore";
+// Required for side-effects
+import "firebase/firestore";
 
-export default function Dashboard({ route }) {
+
+export default function Dashboard() {
   const [currentTimerIndex, setCurrentTimerIndex] = useState(0);
 
   return (
@@ -23,13 +29,13 @@ function Navbar({ currentTimerIndex }) {
 
   return (
     <View style={styles.navbarContainer}>
-      <Pressable style={styles.iconButton} onPress={() => navigation.navigate('Settings', {  })}>
+      <Pressable style={styles.iconButton} onPress={() => navigation.navigate('Settings', {})}>
         <Icon name="cog" size={30} color="black" />
       </Pressable>
       <Text style={styles.timerTitle}>
         {timerDisplay[currentTimerIndex]}
       </Text>
-      <Pressable style={styles.iconButton} onPress={() => navigation.navigate('Profile', {  })}>
+      <Pressable style={styles.iconButton} onPress={() => navigation.navigate('Profile', {})}>
         <Icon name="user" size={30} color="black" />
       </Pressable>
     </View>
@@ -161,6 +167,9 @@ function Timer({ currentTimerIndex, setCurrentTimerIndex }) {
 function TodoList() {
   const [tasks, setTasks] = useState([]);
   const [text, setText] = useState('');
+  const userId = auth.currentUser.email.toLowerCase();
+
+  const initialRender = useRef(true);
 
   // adds tasks
   const addTask = () => {
@@ -235,6 +244,70 @@ function TodoList() {
     />
   );
 
+  // Load tasks
+  useEffect(() => {
+    const loadTasks = async () => {
+      try {
+        const docRef = doc(db, "tasks", userId);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          console.log("Loading tasks from firestore...")
+          console.log(docSnap.data().tasks)
+          setTasks(JSON.parse(docSnap.data()));
+          initialRender.current = false;
+
+        } else {
+          console.log("No such document!");
+          initialRender.current = false;
+
+        }
+      } catch (error) {
+        console.log("Error getting document:", error);
+
+        // If firebase cannot connect, check localStorage
+        const storedTasks = await AsyncStorage.getItem('tasks');
+        if (storedTasks) {
+          setTasks(JSON.parse(storedTasks));
+        }
+        initialRender.current = false;
+      }
+    };
+
+    // Only load tasks on initial render of component
+    if (initialRender.current) {
+      loadTasks();
+    }
+  }, []);
+
+  // Save tasks to local storage
+  useEffect(() => {
+    const saveTasksToStorage = async () => {
+      await AsyncStorage.setItem('tasks', JSON.stringify(tasks));
+    };
+
+    if (!initialRender.current) {
+      saveTasksToStorage();
+    }
+  }, [tasks]);
+
+  // Sync tasks with Firebase
+  useEffect(() => {
+    const saveTasksToFirebase = async () => {
+      console.log("Saving tasks to Firebase...");
+      try {
+        await setDoc(doc(db, 'tasks', userId), { tasks });
+        console.log("Document written to firestore");
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
+    };
+
+    if (!initialRender.current) {
+      saveTasksToFirebase();
+    }
+  }, [tasks]);
+
   return (
     <GestureHandlerRootView >
       <View style={styles.todoContainer}>
@@ -246,7 +319,7 @@ function TodoList() {
             onChangeText={setText}
             onSubmitEditing={addTask}
             returnKeyType="done"
-            // autoFocus={true}
+          // autoFocus={true}
           />
           <Button title="Add" onPress={addTask} />
         </View>
