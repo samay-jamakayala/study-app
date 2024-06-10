@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { SafeAreaView, StyleSheet, View, Text, Pressable, Dimensions, Animated, Keyboard, TouchableOpacity, TextInput, Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import DraggableFlatList from 'react-native-draggable-flatlist';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { GestureHandlerRootView, Swipeable } from 'react-native-gesture-handler';
 import { MaterialIcons } from '@expo/vector-icons'; // Import icons for the checkbox
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -201,30 +201,36 @@ function TodoList() {
     </TouchableOpacity>
   );
 
-  // Todo item component
-  const TodoItem = ({ task, deleteTask, toggleCompleted, drag, isActive }) => (
+  // Custom swiping delete component
+  const renderRightActions = (id) => (
     <TouchableOpacity
-      style={[
-        styles.todoItem,
-        { backgroundColor: isActive ? '#e0e0e0' : '#F3F3F3' },
-      ]}
-      onLongPress={drag}
-    >
-      <MaterialIcons name="drag-indicator" size={24} color="#000" style={styles.dragHandle} />
-      <CustomCheckbox
-        completed={task.completed}
-        onPress={() => toggleCompleted(task.id)}
-      />
-      <Text style={[styles.todoItemText, task.completed && styles.completed]}>
-        {task.text}
-      </Text>
-      <TouchableOpacity
-        style={styles.deleteButton}
-        onPress={() => deleteTask(task.id)}
+      style={styles.deleteButtonSwipeable}
+      onPress={() => deleteTask(id)}
       >
-        <Text style={{ color: '#fff' }}>Delete</Text>
-      </TouchableOpacity>
+        <MaterialIcons name="delete" size={24} color="white"/>
     </TouchableOpacity>
+  );
+
+  // Todo item component, now using swipe delete
+  const TodoItem = ({ task, toggleCompleted, drag, isActive }) => (
+    <Swipeable renderRightActions={() => renderRightActions(task.id)}>
+      <TouchableOpacity
+        style={[
+          styles.todoItem,
+          { backgroundColor: isActive ? '#e0e0e0' : '#F3F3F3' },
+        ]}
+        onLongPress={drag}
+      >
+        <MaterialIcons name="drag-indicator" size={24} color="#000" style={styles.dragHandle} />
+        <CustomCheckbox
+          completed={task.completed}
+          onPress={() => toggleCompleted(task.id)}
+        />
+        <Text style={[styles.todoItemText, task.completed && styles.completed]}>
+          {task.text}
+        </Text>
+      </TouchableOpacity>
+    </Swipeable>
   );
 
   // renders todo items
@@ -509,5 +515,12 @@ const styles = StyleSheet.create({
   },
   dragHandle: {
     marginRight: 10,
+  },
+  deleteButtonSwipeable: {
+    backgroundColor: 'red',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 80,
+    height: '100%',
   },
 });
