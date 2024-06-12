@@ -14,7 +14,18 @@ export default function Settings({ navigation }) {
             </View>
             <View style={styles.settingsContainer}>
                 <View style={styles.settingTab}>
-
+                    <View style={styles.settingLabel}>
+                        <Icon name='settings' />
+                        <Text>Setting</Text>
+                    </View>
+                    <Text>Switch</Text>
+                </View>
+                <View style={styles.settingTab}>
+                    <View style={styles.settingLabel}>
+                        <Icon name='settings' />
+                        <Text>Setting</Text>
+                    </View>
+                    <Text>Switch</Text>
                 </View>
             </View>
         </SafeAreaView >
@@ -34,10 +45,19 @@ const styles = StyleSheet.create({
         width: windowWidth * .9,
     },
     settingsContainer: {
+        flex: 1,
         width: windowWidth * .8
     },
     settingTab: {
         flex: 1,
         flexDirection: "row",
+        justifyContent: "space-between",
+        marginVertical: 10
+    },
+    settingLabel: {
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: "flex-start",
+        padding: "5"
     }
 });
