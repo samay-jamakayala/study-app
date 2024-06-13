@@ -30,13 +30,13 @@ function Navbar({ currentTimerIndex }) {
 
   return (
     <View style={styles.navbarContainer}>
-      <Pressable style={styles.iconButton} onPress={() => navigation.navigate('Settings', {})}>
+      <Pressable style={styles.iconButton} onPress={() => {Haptics.selectionAsync(); navigation.navigate('Settings', {})}}>
         <Icon name="cog" size={30} color="black" />
       </Pressable>
       <Text style={styles.timerTitle}>
         {timerDisplay[currentTimerIndex]}
       </Text>
-      <Pressable style={styles.iconButton} onPress={() => navigation.navigate('Profile', {})}>
+      <Pressable style={styles.iconButton} onPress={() =>{ Haptics.selectionAsync(); navigation.navigate('Profile', {})}}>
         <Icon name="user" size={30} color="black" />
       </Pressable>
     </View>
@@ -62,8 +62,7 @@ function Timer({ currentTimerIndex, setCurrentTimerIndex }) {
     setIsRunning(false);
     const newIndex = currentPageIndex % timerDurations.length;
     setCurrentTimerIndex(newIndex); // Use modulus operator to cycle through the array
-    setTimer(newIndex);
-
+    setTimer(newIndex); 
   };
 
   // Set timer to a specific duration using timerDurations array
@@ -77,7 +76,6 @@ function Timer({ currentTimerIndex, setCurrentTimerIndex }) {
   const resetTimer = () => {
     setIsRunning(false);
     setTimeLeft(timerDurations[currentTimerIndex]);
-   
   };
 
   // Switches between Pomodoro to break, and vice versa
@@ -87,12 +85,10 @@ function Timer({ currentTimerIndex, setCurrentTimerIndex }) {
       x: newIndex * windowWidth, // Scroll to the correct page based on the index
       animated: true,
     });
-   
   };
 
   // Timer functionality
   useEffect(() => {
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     let interval = null;
 
     // Functionality for when timer reaches 0
@@ -153,13 +149,13 @@ function Timer({ currentTimerIndex, setCurrentTimerIndex }) {
       </View>
       <View style={styles.timerControlCircle}>
         <View style={styles.timerControlContainer}>
-          <Pressable style={styles.button} onPress={() => setIsRunning(!isRunning)}>
+          <Pressable style={styles.button} onPress={() => {Haptics.selectionAsync(); setIsRunning(!isRunning)}}>
             <Text style={styles.buttonText}>{isRunning ? 'Pause' : 'Start'}</Text>
           </Pressable>
-          <Pressable style={styles.button} onPress={resetTimer}>
+          <Pressable style={styles.button} onPress={ () => {Haptics.selectionAsync(); resetTimer}}>
             <Text style={styles.buttonText}>Reset</Text>
           </Pressable>
-          <Pressable style={styles.button} onPress={switchTimer}>
+          <Pressable style={styles.button} onPress={ () => {Haptics.selectionAsync(); switchTimer}}>
             <Text style={styles.buttonText}>Switch</Text>
           </Pressable>
         </View>
@@ -210,7 +206,7 @@ function TodoList() {
   const renderRightActions = (id) => (
     <TouchableOpacity
       style={styles.deleteButtonSwipeable}
-      onPress={() => deleteTask(id)}
+      onPress={() => {Haptics.selectionAsync(); deleteTask(id)}}
       >
         <MaterialIcons name="delete" size={24} color="white"/>
     </TouchableOpacity>
@@ -224,12 +220,14 @@ function TodoList() {
           styles.todoItem,
           { backgroundColor: isActive ? '#e0e0e0' : '#F3F3F3' },
         ]}
+        
         onLongPress={drag}
+       
       >
         <MaterialIcons name="drag-indicator" size={24} color="#000" style={styles.dragHandle} />
         <CustomCheckbox
           completed={task.completed}
-          onPress={() => toggleCompleted(task.id)}
+          onPress={() => {toggleCompleted(task.id); Haptics.selectionAsync()}}
         />
         <Text style={[styles.todoItemText, task.completed && styles.completed]}>
           {task.text}
@@ -326,7 +324,7 @@ function TodoList() {
             returnKeyType="done"
           // autoFocus={true}
           />
-          <Button title="Add" onPress={addTask} />
+          <Button title="Add" onPress={ () => { Haptics.selectionAsync(); addTask}} />
         </View>
         <DraggableFlatList style={{ height: '85%', width: '100%' }}
           data={tasks}
