@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebaseConfig';
 import Logo from '../assets/google-icon.svg';
+import * as Haptics from 'expo-haptics';
 
 export default function AuthPage() {
     const navigation = useNavigation();
@@ -39,7 +40,7 @@ export default function AuthPage() {
                 value={email}
                 onSubmitEditing={handleSignUpNavigation}
             />
-            <Pressable style={styles.signUpLogInButton} onPress={handleSignUpNavigation}>
+            <Pressable style={styles.signUpLogInButton} onPress={ () => { Haptics.selectionAsync(); handleSignUpNavigation }}>
                 <Text style={styles.signUpLogInButtonText}>Sign up with email</Text>
             </Pressable>
             <View style={styles.dividerContainer}>
@@ -47,10 +48,10 @@ export default function AuthPage() {
                 <Text style={styles.dividerText}>or continue with</Text>
                 <View style={styles.dividerLine} />
             </View>
-            <Pressable style={styles.signUpLogInButton} onPress={() => navigation.navigate('Login')}>
+            <Pressable style={styles.signUpLogInButton} onPress={() => { Haptics.selectionAsync(); navigation.navigate('Login') }}>
                 <Text style={styles.signUpLogInButtonText}>Log in with email</Text>
             </Pressable>
-            <Pressable style={styles.googleButton} onPress={handleGoogleLogin}>
+            <Pressable style={styles.googleButton} onPress={ () => { Haptics.selectionAsync(); handleGoogleLogin }}>
                 <Logo width={20} height={20} />
                 <Text style={styles.googleButtonText}>Google</Text>
             </Pressable>
@@ -159,7 +160,7 @@ export function SignUp({ route }) {
                 onChangeText={text => setConfirmPassword(text)}
                 onSubmitEditing={() => handleSignUp}
             />
-            <Pressable style={styles.signUpLogInButton} onPress={handleSignUp}>
+            <Pressable style={styles.signUpLogInButton} onPress={ () => { Haptics.selectionAsync(); handleSignUp }}>
                 <Text style={styles.signUpLogInButtonText}>Create Account</Text>
             </Pressable>
             <View style={styles.errorContainer}>
@@ -216,7 +217,7 @@ export function Login() {
                 onSubmitEditing={handleSignIn}
                 returnKeyType="next"
             />
-            <Pressable style={styles.signUpLogInButton} onPress={handleSignIn}>
+            <Pressable style={styles.signUpLogInButton} onPress={ () => { Haptics.selectionAsync(); handleSignIn}}>
                 <Text style={styles.signUpLogInButtonText}>Log In</Text>
             </Pressable>
             <Pressable style={styles.forgotPassword}>

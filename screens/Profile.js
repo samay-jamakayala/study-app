@@ -8,6 +8,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import * as ImagePicker from 'expo-image-picker';
 // Required for side-effects
 import "firebase/firestore";
+import * as Haptics from 'expo-haptics';
 
 export default function Profile({ navigation }) {
     const user = auth.currentUser;
@@ -50,6 +51,7 @@ export default function Profile({ navigation }) {
                 },
                 {
                     text: "OK", onPress: () => {
+                        Haptics.selectionAsync();
                         if (user) {
                             deleteUser(user)
                                 .then(async () => {
@@ -117,11 +119,11 @@ export default function Profile({ navigation }) {
                 <Header
                     containerStyle={{ backgroundColor: 'transparent', borderBottomColor: 'transparent' }}
                     centerComponent={{ text: 'Profile', style: { color: '#000', fontSize: 24, fontFamily: 'Times New Roman'  } }}
-                    leftComponent={<Icon name='arrow-back' color='#000' size={30} onPress={() => navigation.navigate('Dashboard')} />}
+                    leftComponent={<Icon name='arrow-back' color='#000' size={30} onPress={() => { Haptics.selectionAsync(); navigation.navigate('Dashboard')}} />}
                 />
             </View>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
-                <TouchableOpacity onPress={pickImage}>
+                <TouchableOpacity onPress={() => { Haptics.selectionAsync(); pickImage}}>
                     <Image source={image ? { uri: image } : require('../assets/default-profile.png')} style={styles.profileImage} />
                 </TouchableOpacity>
                 <Text style={styles.emailText}>{user.email}</Text>
@@ -137,7 +139,7 @@ export default function Profile({ navigation }) {
                     value={bio}
                     placeholder="Bio"
                 />
-                <Button title="Save" onPress={handleSaveProfile} />
+                <Button title="Save" onPress={ () => { Haptics.selectionAsync(); handleSaveProfile }} />
                 <Text style={styles.statsHeader}>Your Statistics</Text>
                 <Text>Total Pomodoros: 0</Text>
                 <Text>Total Study Time: 0 hours</Text>
@@ -145,8 +147,8 @@ export default function Profile({ navigation }) {
                 <Text style={styles.achievementsHeader}>Achievements</Text>
                 <Text>None</Text> 
                 {/* Can add more here for achievements dependent on user. */}
-                <Button title="Sign Out" onPress={handleSignOut} />
-                <Button title="Delete Account" onPress={handleDeleteAccount} color="red" />
+                <Button title="Sign Out" onPress={ () => { Haptics.selectionAsync(); handleSignOut }} />
+                <Button title="Delete Account" onPress={() => { Haptics.selectionAsync(); handleDeleteAccount }} color="red" />
             </ScrollView>
         </SafeAreaView>
     );
