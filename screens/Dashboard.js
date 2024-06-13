@@ -10,6 +10,7 @@ import { auth, db } from '../firebaseConfig';
 import { doc, setDoc, getDoc } from "firebase/firestore";
 // Required for side-effects
 import "firebase/firestore";
+import * as Haptics from 'expo-haptics';
 
 
 export default function Dashboard() {
@@ -62,6 +63,7 @@ function Timer({ currentTimerIndex, setCurrentTimerIndex }) {
     const newIndex = currentPageIndex % timerDurations.length;
     setCurrentTimerIndex(newIndex); // Use modulus operator to cycle through the array
     setTimer(newIndex);
+
   };
 
   // Set timer to a specific duration using timerDurations array
@@ -75,6 +77,7 @@ function Timer({ currentTimerIndex, setCurrentTimerIndex }) {
   const resetTimer = () => {
     setIsRunning(false);
     setTimeLeft(timerDurations[currentTimerIndex]);
+   
   };
 
   // Switches between Pomodoro to break, and vice versa
@@ -84,10 +87,12 @@ function Timer({ currentTimerIndex, setCurrentTimerIndex }) {
       x: newIndex * windowWidth, // Scroll to the correct page based on the index
       animated: true,
     });
+   
   };
 
   // Timer functionality
   useEffect(() => {
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     let interval = null;
 
     // Functionality for when timer reaches 0
