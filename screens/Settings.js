@@ -46,13 +46,13 @@ const styles = StyleSheet.create({
     },
     settingsContainer: {
         flex: 1,
-        width: windowWidth * .8
+        width: windowWidth * .8,
     },
     settingTab: {
         flex: 1,
         flexDirection: "row",
         justifyContent: "space-between",
-        marginVertical: 10
+        alignContent: "center",
     },
     settingLabel: {
         flex: 1,
