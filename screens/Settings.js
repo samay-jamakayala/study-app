@@ -1,5 +1,6 @@
 import { SafeAreaView, StyleSheet, View, Text, Dimensions } from 'react-native';
 import { Header, Icon } from 'react-native-elements';
+import * as Haptics from 'expo-haptics';
 
 export default function Settings({ navigation }) {
 
@@ -9,7 +10,7 @@ export default function Settings({ navigation }) {
                 <Header
                     containerStyle={{ backgroundColor: 'transparent', borderBottomColor: 'transparent' }}
                     centerComponent={{ text: 'Settings', style: { color: '#000', fontSize: 24, fontFamily: 'Times New Roman' } }}
-                    rightComponent={<Icon name='arrow-forward' color='#000' size={30} onPress={() => navigation.navigate('Dashboard')} />}
+                    rightComponent={<Icon name='arrow-forward' color='#000' size={30} onPress={() => { Haptics.selectionAsync(); navigation.navigate('Dashboard')}} />}
                 />
             </View>
             <View style={styles.settingsContainer}>
