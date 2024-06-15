@@ -44,7 +44,6 @@ function Navbar({ currentTimerIndex }) {
 }
 
 function Timer({ currentTimerIndex, setCurrentTimerIndex }) {
-
   // Timer data 
   // 0: 25 min, 1: 5 min, 2: 15 min
   const timerDurations = [25 * 60, 5 * 60, 15 * 60];
@@ -149,13 +148,13 @@ function Timer({ currentTimerIndex, setCurrentTimerIndex }) {
       </View>
       <View style={styles.timerControlCircle}>
         <View style={styles.timerControlContainer}>
-          <Pressable style={styles.button} onPress={() => {Haptics.selectionAsync(); setIsRunning(!isRunning)}}>
+          <Pressable style={styles.button} onPress={() => { Haptics.selectionAsync(); setIsRunning(!isRunning); }}>
             <Text style={styles.buttonText}>{isRunning ? 'Pause' : 'Start'}</Text>
           </Pressable>
-          <Pressable style={styles.button} onPress={ () => {Haptics.selectionAsync(); resetTimer}}>
+          <Pressable style={styles.button} onPress={() => { Haptics.selectionAsync(); resetTimer(); }}>
             <Text style={styles.buttonText}>Reset</Text>
           </Pressable>
-          <Pressable style={styles.button} onPress={ () => {Haptics.selectionAsync(); switchTimer}}>
+          <Pressable style={styles.button} onPress={() => { Haptics.selectionAsync(); switchTimer(); }}>
             <Text style={styles.buttonText}>Switch</Text>
           </Pressable>
         </View>
